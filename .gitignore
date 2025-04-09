@@ -1,2 +1,5 @@
 hosts/test
+hosts/stage
 roles/splunk/files/*.lic
+logs
+facts.d
