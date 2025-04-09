@@ -1,5 +1,5 @@
 ---
-# Note: Splunk must be stopped when creating or altering systemd related configurations for it
+# Note: Splunk must be stopped when creating or altering systemd-related configurations for it.
 - name: Block for checking boot-start when an existing Splunk installation has been found
   when:
     - splunkd_found.stat.exists
@@ -18,14 +18,14 @@
         - splunk_status.rc == 0
         - current_start_method != "initd"
 
-    - name: Stop splunk via initd
+    - name: Stop Splunk via initd
       ansible.builtin.service:
-        name: "splunk"
+        name: splunk
         state: stopped
       become: true
       ignore_errors: true
 
-    - name: Disable boot-start if it needs to be to reconfigured
+    - name: Disable boot-start if it needs to be reconfigured
       ansible.builtin.command: "{{ splunk_home }}/bin/splunk disable boot-start"
       become: true
       when: current_start_method is defined or splunk_upgraded is defined
@@ -39,11 +39,19 @@
       notify:
         - reload systemctl daemon
 
-- name: Enable splunk boot-start via initd
+- name: Enable Splunk boot-start
   when: configure_boot_start is defined or splunk_upgraded is defined
   block:
-    - name: Enable splunk boot-start via initd
-      ansible.builtin.command: "{{ splunk_home }}/bin/splunk enable boot-start -user {{ splunk_nix_user }} -group {{ splunk_nix_group }} -systemd-managed 0 --answer-yes --auto-ports --no-prompt --accept-license"
+    - name: Enable Splunk boot-start via initd
+      ansible.builtin.command: >
+        {{ splunk_home }}/bin/splunk enable boot-start
+        -user {{ splunk_nix_user }}
+        -group {{ splunk_nix_group }}
+        -systemd-managed 0
+        --answer-yes
+        --auto-ports
+        --no-prompt
+        --accept-license
       become: true
       when:
         - desired_start_method == "initd"
@@ -52,8 +60,18 @@
         - reload systemctl daemon
         - start splunk
 
-    - name: Enable splunk boot-start via systemd
-      ansible.builtin.command: "{{ splunk_home }}/bin/splunk enable boot-start -user {{ splunk_nix_user }} -group {{ splunk_nix_group }} -systemd-managed 1 -systemd-unit-file-name {{ systemd_unit }} -create-polkit-rules {{ splunk_create_polkit }} --answer-yes --auto-ports --no-prompt --accept-license"
+    - name: Enable Splunk boot-start via systemd
+      ansible.builtin.command: >
+        {{ splunk_home }}/bin/splunk enable boot-start
+        -user {{ splunk_nix_user }}
+        -group {{ splunk_nix_group }}
+        -systemd-managed 1
+        -systemd-unit-file-name {{ systemd_unit }}
+        -create-polkit-rules {{ splunk_create_polkit }}
+        --answer-yes
+        --auto-ports
+        --no-prompt
+        --accept-license
       become: true
       when:
         - desired_start_method == "systemd"

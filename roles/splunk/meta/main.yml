@@ -1,3 +1,4 @@
+---
 galaxy_info:
   author: Jason Hickey
   description: |-
@@ -23,4 +24,3 @@ galaxy_info:
     - splunkforwarder
 
 dependencies: []
-  

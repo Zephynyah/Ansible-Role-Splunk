@@ -178,3 +178,52 @@ The `vault_password_file` configuration in your `ansible.cfg` file specifies the
 ### Notes:
 - Ensure the `vault_password_file` is not included in version control (e.g., add it to `.gitignore`).
 - The `vault_password_file` simplifies automation by avoiding manual password entry but must be secured to prevent unauthorized access.
+
+## YML Linting
+
+```sh
+pip3 install --upgrade --user yamllint
+```
+
+```sh
+echo 'export PATH=$PATH:~/.local/bin' >> ~/.bashrc
+source ~/.bashrc
+```
+
+```sh
+yamllint .
+```
+
+
+## Encrypt string
+Here is the updated all.yml file with sensitive information (like `splunk_admin_password`) encrypted using Ansible Vault:
+
+```yaml
+---
+splunk_uri_lm: https://rh8-ds-1:8089
+ansible_user: root
+ansible_ssh_private_key_file: ~/.ssh/id_ed25519
+git_server: ssh://git@github.com:Zephynyah/splunk-ansible-apps.git
+git_key: ~/.ssh/ansible
+git_project: SOMEPROJECT
+splunk_admin_password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          <encrypted_password_here>
+```
+
+### Steps to Encrypt the Password:
+1. Use the `ansible-vault encrypt_string` command to encrypt the `splunk_admin_password`:
+   ```bash
+   ansible-vault encrypt_string --ask-vault-pass 'Nosw3R&dAcukoqaS*SW=' --name 'splunk_admin_password'
+   ```
+   This will output the encrypted string, which you can replace in the all.yml file.
+
+2. Replace `<encrypted_password_here>` with the encrypted string output from the above command.
+
+3. Save the updated file.
+
+### Notes:
+- Ensure your `vault_password_file` is configured in ansible.cfg to avoid being prompted for the vault password during playbook execution.
+- Do not commit unencrypted sensitive information to version control.
+
+Let me know if you need further assistance!

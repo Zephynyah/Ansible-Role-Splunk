@@ -38,6 +38,3 @@
         group: root
         mode: '0644'
       notify: reload systemctl daemon
-        
- 
-  

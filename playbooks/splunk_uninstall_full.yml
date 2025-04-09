@@ -27,4 +27,3 @@
         name: splunk
       vars:
         deployment_task: remove_splunk.yml
-

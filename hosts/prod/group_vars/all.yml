@@ -5,6 +5,4 @@ ansible_ssh_private_key_file: ~/.ssh/id_ed25519
 git_server: ssh://git@github.com:Zephynyah/splunk-ansible-apps.git
 git_key: ~/.ssh/ansible
 git_project: SOMEPROJECT
-#--------------------Secret----------------------
-
-#--------------------Secret----------------------
+splunk_admin_password: 'Nosw3R&dAcukoqaS*SW='

@@ -1,142 +1,127 @@
-
 ---
 # Argument specifications for Splunk role
 argument_specs:
-    main:
-        options:
-            slack_channel:
-                default: undefined
-                description: "Slack channel for notifications."
-                type: string
-
-            slack_token:
-                default: undefined
-                description: "Slack token for authentication."
-                type: string
-
-            splunk_home:
-                default: auto_determined
-                description: "Path to Splunk installation directory."
-                type: string
-
-            splunk_package_url:
-                default: auto_determined
-                description: "URL to download the Splunk package."
-                type: string
-
-            splunk_package_path:
-                default: "~/"
-                description: "Local path to store the Splunk package."
-                type: string
-
-            splunk_package_version:
-                default: "9.3.0"
-                description: "Version of Splunk to install or update to."
-                type: string
-
-            build_id:
-                default: "51ccf43db5bd"
-                description: "Build ID for the Splunk package."
-                type: string
-
-            splunk_package_arch:
-                default: "{{ splunk_package_version is version(9.4, '<') | ternary('Linux-x86_64', 'linux-amd64') }}"
-                description: "Architecture of the Splunk package."
-                type: string
-
-            splunk_package_url_full:
-                default: "https://download.splunk.com/products/splunk/releases/{{ splunk_package_version }}/linux/splunk-{{ splunk_package_version }}-{{ build_id }}-{{ splunk_package_arch }}.tgz"
-                description: "Full URL to download the Splunk package."
-                type: string
-
-            splunk_package_url_uf:
-                default: "https://download.splunk.com/products/universalforwarder/releases/{{ splunk_package_version }}/linux/splunkforwarder-{{ splunk_package_version }}-{{ build_id }}-{{ splunk_package_arch }}.tgz"
-                description: "URL to download the Splunk Universal Forwarder package."
-                type: string
-
-            splunk_download_local:
-                default: true
-                description: "Whether to download the package locally or on each host."
-                type: boolean
-
-            splunk_install_type:
-                default: undefined
-                description: "Type of Splunk installation (e.g., full or uf)."
-                type: string
-
-            splunk_install_path:
-                default: "/opt"
-                description: "Base directory for Splunk installation."
-                type: string
-
-            splunk_nix_user:
-                default: splunk
-                description: "Linux user for Splunk."
-                type: string
-
-            splunk_nix_group:
-                default: splunk
-                description: "Linux group for Splunk."
-                type: string
-
-            splunk_admin_username:
-                default: admin
-                description: "Default Splunk admin username."
-                type: string
-
-            splunk_admin_password:
-                default: undefined
-                description: "Default Splunk admin password. Use ansible-vault to encrypt."
-                type: string
-
-            splunk_use_systemd_override:
-                default: true
-                description: "Whether to use systemd service.d override for limits."
-                type: boolean
-
-            splunk_use_initd:
-                default: false
-                description: "Whether to use init.d instead of systemd."
-                type: boolean
-
-            splunk_disable_mgmt_port:
-                default: false
-                description: "Whether to disable the Splunk management port during installation."
-                type: boolean
-
-            splunk_firewall_ports:
-                default:
-                - "{{ splunkweb_port }}"
-                - "{{ splunkapi_port }}"
-                description: "List of ports to allow through the local firewall."
-                type: list
-
-            splunk_idxc_key:
-                default: mypass4symmkey
-                description: "Pass4SymmKey for indexer clustering."
-                type: string
-
-            splunk_shc_key:
-                default: mypass4symmkey
-                description: "Pass4SymmKey for search head clustering."
-                type: string
-
-            splunk_apply_cluster_bundle_retries:
-                default: 3
-                description: "Number of retries for applying the indexer cluster bundle."
-                type: integer
-
-            splunk_apply_cluster_bundle_delay:
-                default: 60
-                description: "Delay in seconds between retries for applying the indexer cluster bundle."
-                type: integer
-
-            splunk_apply_shcluster_bundle_retries:
-                default: 3
-                description: "Number of retries for applying the search head cluster bundle."
-                type: integer
-
-            splunk_apply_shcluster_bundle_delay:
-                default: 60
-                description: "Delay in seconds between retries for applying the search head cluster bundle."
-                type: integer
+  main:
+    options:
+      slack_channel:
+        default: undefined
+        description: Slack channel for notifications.
+        type: string
+      slack_token:
+        default: undefined
+        description: Slack token for authentication.
+        type: string
+      splunk_home:
+        default: auto_determined
+        description: Path to Splunk installation directory.
+        type: string
+      splunk_package_url:
+        default: auto_determined
+        description: URL to download the Splunk package.
+        type: string
+      splunk_package_path:
+        default: ~/
+        description: Local path to store the Splunk package.
+        type: string
+      splunk_package_version:
+        default: 9.3.0
+        description: Version of Splunk to install or update to.
+        type: string
+      build_id:
+        default: 51ccf43db5bd
+        description: Build ID for the Splunk package.
+        type: string
+      splunk_package_arch:
+        default: >-
+          {{ splunk_package_version is version(9.4, '<') |
+          ternary('Linux-x86_64', 'linux-amd64') }}
+        description: Architecture of the Splunk package.
+        type: string
+      splunk_package_url_full:
+        default: >-
+          https://download.splunk.com/products/splunk/releases/{{
+          splunk_package_version }}/linux/splunk-{{ splunk_package_version }}-{{
+          build_id }}-{{ splunk_package_arch }}.tgz
+        description: Full URL to download the Splunk package.
+        type: string
+      splunk_package_url_uf:
+        default: >-
+          https://download.splunk.com/products/universalforwarder/releases/{{
+          splunk_package_version }}/linux/splunkforwarder-{{
+          splunk_package_version }}-{{ build_id }}-{{ splunk_package_arch }}.tgz
+        description: URL to download the Splunk Universal Forwarder package.
+        type: string
+      splunk_download_local:
+        default: true
+        description: Whether to download the package locally or on each host.
+        type: boolean
+      splunk_install_type:
+        default: undefined
+        description: 'Type of Splunk installation (e.g., full or uf).'
+        type: string
+      splunk_install_path:
+        default: /opt
+        description: Base directory for Splunk installation.
+        type: string
+      splunk_nix_user:
+        default: splunk
+        description: Linux user for Splunk.
+        type: string
+      splunk_nix_group:
+        default: splunk
+        description: Linux group for Splunk.
+        type: string
+      splunk_admin_username:
+        default: admin
+        description: Default Splunk admin username.
+        type: string
+      splunk_admin_password:
+        default: undefined
+        description: Default Splunk admin password. Use ansible-vault to encrypt.
+        type: string
+      splunk_use_systemd_override:
+        default: true
+        description: Whether to use systemd service.d override for limits.
+        type: boolean
+      splunk_use_initd:
+        default: false
+        description: Whether to use init.d instead of systemd.
+        type: boolean
+      splunk_disable_mgmt_port:
+        default: false
+        description: Whether to disable the Splunk management port during installation.
+        type: boolean
+      splunk_firewall_ports:
+        default:
+          - '{{ splunkweb_port }}'
+          - '{{ splunkapi_port }}'
+        description: List of ports to allow through the local firewall.
+        type: list
+      splunk_idxc_key:
+        default: mypass4symmkey
+        description: Pass4SymmKey for indexer clustering.
+        type: string
+      splunk_shc_key:
+        default: mypass4symmkey
+        description: Pass4SymmKey for search head clustering.
+        type: string
+      splunk_apply_cluster_bundle_retries:
+        default: 3
+        description: Number of retries for applying the indexer cluster bundle.
+        type: integer
+      splunk_apply_cluster_bundle_delay:
+        default: 60
+        description: >-
+          Delay in seconds between retries for applying the indexer cluster
+          bundle.
+        type: integer
+      splunk_apply_shcluster_bundle_retries:
+        default: 3
+        description: Number of retries for applying the search head cluster bundle.
+        type: integer
+      splunk_apply_shcluster_bundle_delay:
+        default: 60
+        description: >-
+          Delay in seconds between retries for applying the search head cluster
+          bundle.
+        type: integer

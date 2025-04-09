@@ -28,7 +28,5 @@ all:
 
     uf:
       children:
-
-        # web:
-        #   hosts:
-        #     my-web-host-[01-05]:
+        web:
+          hosts:
