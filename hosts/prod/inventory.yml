@@ -1,0 +1,34 @@
+---
+# YAML format inventory with nested groups for variable inheritance
+# Mason Morales, Splunk, Inc.
+# References:
+# https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html
+all:
+  children:
+
+    full:
+      children:
+
+        licensemaster:
+          hosts:
+            rh8-ds-1:
+
+        deploymentserver:
+          hosts:
+            rh8-ds-1:
+
+        search:
+          hosts:
+            rh8-sh-1:
+
+        indexer:
+          hosts:
+            rh8-idx-1:
+            rh8-idx-2:
+
+    uf:
+      children:
+
+        # web:
+        #   hosts:
+        #     my-web-host-[01-05]:

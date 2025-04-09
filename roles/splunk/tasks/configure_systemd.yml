@@ -1,0 +1,43 @@
+---
+- name: Update the systemd file for Splunk
+  community.general.ini_file:
+    path: "/etc/systemd/system/{{ splunk_service }}.service"
+    section: Service
+    option: "{{ item.option }}"
+    value: "{{ item.value }}"
+    mode: "0644"
+  become: true
+  loop:
+    - { option: "LimitNOFILE", value: "1024000" }
+    - { option: "LimitNPROC", value: "512000" }
+    - { option: "LimitFSIZE", value: "infinity" }
+    - { option: "LimitDATA", value: "infinity" }
+    - { option: "LimitCORE", value: "infinity" }
+    - { option: "TasksMax", value: "infinity" }
+  when: not splunk_use_systemd_override
+  notify: reload systemctl daemon
+
+- name: Use the systemd service.d directory for Splunk
+  when: splunk_use_systemd_override
+  block:
+    - name: Create systemd service.d directory
+      become: true
+      ansible.builtin.file:
+        path: "/etc/systemd/system/{{ splunk_service }}.service.d"
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Copy service drop-in
+      become: true
+      ansible.builtin.template:
+        src: override.conf.j2
+        dest: "/etc/systemd/system/{{ splunk_service }}.service.d/override.conf"
+        owner: root
+        group: root
+        mode: '0644'
+      notify: reload systemctl daemon
+        
+ 
+  

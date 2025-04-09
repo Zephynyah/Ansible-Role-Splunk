@@ -1,0 +1,67 @@
+---
+- name: Disable THP
+  block:
+    - name: Disable THP using a systemd unit file
+      block:
+        - name: Copy systemd disable-thp unit file
+          ansible.builtin.copy:
+            src: disable-thp.service
+            dest: /etc/systemd/system/disable-thp.service
+            mode: "0644"
+            owner: root
+            group: root
+          become: true
+
+        - name: Reload systemd daemon
+          ansible.builtin.command: systemctl daemon-reload
+          become: true
+
+        - name: Enable disable-thp unit file
+          ansible.builtin.service:
+            name: disable-thp
+            enabled: true
+            state: started
+          become: true
+      when:
+        - not use_tuned_thp
+
+    - name: Configure THP using tuned profile
+      block:
+        - name: Install tuned package
+          ansible.builtin.package:
+            name: "tuned"
+            state: present
+            update_cache: true
+          become: true
+        - name: Check active tuned profile
+          ansible.builtin.command: tuned-adm active
+          register: tuned_profile
+          become: true
+          check_mode: false
+          changed_when: false
+        - name: Set active tuned profile variable
+          ansible.builtin.set_fact:
+            tuned_active_profile: "{{ tuned_profile.stdout | regex_search('\\S+$') }}"
+        - name: Create /etc/tuned/splunk directory
+          ansible.builtin.file:
+            path: /etc/tuned/splunk
+            state: directory
+            mode: "0755"
+            owner: root
+            group: root
+          become: true
+        - name: Copy splunk profile tuned.conf
+          ansible.builtin.copy:
+            src: tuned_thp.conf
+            dest: /etc/tuned/splunk/tuned.conf
+            mode: "0644"
+            owner: root
+            group: root
+          become: true
+        - name: Enable tuned profile
+          ansible.builtin.command: tuned-adm profile splunk
+          become: true
+          when: tuned_active_profile != "splunk"
+      when:
+        - use_tuned_thp
+  ignore_errors: true

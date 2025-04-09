@@ -1,0 +1,37 @@
+---
+# Example playbook to properly upgrade a single-site indexer and search head using the splunk role from ansible-role-splunk
+- hosts: deploymentserver
+  become: true
+  any_errors_fatal: true
+  max_fail_percentage: 0
+  tasks:
+    - name: Include Splunk role for deployment server
+      ansible.builtin.include_role:
+        name: splunk
+      vars:
+        deployment_task: check_splunk.yml
+
+- hosts: search
+  serial: 1
+  become: true
+  any_errors_fatal: true
+  max_fail_percentage: 0
+  tasks:
+    - name: Include Splunk role for search heads
+      ansible.builtin.include_role:
+        name: splunk
+      vars:
+        deployment_task: check_splunk.yml
+
+- hosts: indexer
+  serial: 1
+  become: true
+  any_errors_fatal: true
+  max_fail_percentage: 0
+  tasks:
+    - name: Include Splunk role for indexers
+      ansible.builtin.include_role:
+        name: splunk
+      vars:
+        deployment_task: check_splunk.yml
+

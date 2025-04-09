@@ -1,0 +1,30 @@
+---
+# Example playbook to perform splunk uninstallation
+- name: Remove Splunk Installation Playbook
+  hosts: all
+  gather_facts: false
+  become: true
+  become_method: sudo
+  ignore_errors: true
+  serial: 100
+
+  pre_tasks:
+    - name: 'Warning 1: This will completely remove Splunk from the target systems.'
+      ansible.builtin.pause:
+        prompt: "WARNING 1: Are you sure you want to proceed? (yes/no)"
+
+    - name: 'Warning 2: All Splunk data and configurations will be deleted.'
+      ansible.builtin.pause:
+        prompt: "WARNING 2: Do you understand the implications? (yes/no)"
+
+    - name: 'Warning 3: This action is irreversible. Proceed with caution.'
+      ansible.builtin.pause:
+        prompt: "WARNING 3: Confirm to continue with the uninstallation. (yes/no)"
+
+  tasks:
+    - name: Remove Splunk
+      ansible.builtin.include_role:
+        name: splunk
+      vars:
+        deployment_task: remove_splunk.yml
+

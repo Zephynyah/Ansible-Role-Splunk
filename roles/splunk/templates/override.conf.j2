@@ -1,0 +1,9 @@
+{{ ansible_managed | comment }}
+
+[Service]
+Environment="LimitNOFILE=1024000"
+Environment="LimitNPROC=512000"
+Environment="LimitFSIZE=infinity"
+Environment="LimitDATA=infinity"
+Environment="LimitCORE=infinity"
+Environment="TasksMax=infinity"

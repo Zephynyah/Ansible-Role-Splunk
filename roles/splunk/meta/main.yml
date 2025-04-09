@@ -1,0 +1,26 @@
+galaxy_info:
+  author: Jason Hickey
+  description: |-
+      Ansible role for installing Splunk, upgrading Splunk.
+      This role is designed to be used with the Splunk Universal Forwarder and
+      Splunk Enterprise. It is not intended to be used with the Splunk Cloud
+      or Splunk Light.
+
+  company: Pratt & Whitney
+  license: MIT
+  issue_tracker_url: http://example.com/issue/tracker
+
+  min_ansible_version: 2.7
+
+  platforms:
+    - name: EL
+      versions:
+        - 7
+        - 8
+
+  galaxy_tags:
+    - splunk
+    - splunkforwarder
+
+dependencies: []
+  

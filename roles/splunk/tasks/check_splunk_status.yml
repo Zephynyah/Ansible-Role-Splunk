@@ -1,0 +1,8 @@
+---
+- name: Check if Splunk is currently running or stopped
+  ansible.builtin.command: "{{ splunk_home }}/bin/splunk status"
+  register: splunk_status
+  become: true
+  become_user: "{{ splunk_nix_user }}"
+  failed_when: false
+  changed_when: false

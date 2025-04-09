@@ -1,0 +1,428 @@
+2025-04-09 02:39:39,247 p=42009 u=root n=ansible | Encryption successful
+2025-04-09 02:44:38,646 p=42190 u=root n=ansible | PLAY [Splunk Installation or Upgrade Playbook] ****************************************************************************************************************************************************************************************************
+2025-04-09 02:44:38,717 p=42190 u=root n=ansible | TASK [Installation or Upgrade Splunk] *************************************************************************************************************************************************************************************************************
+2025-04-09 02:44:39,071 p=42190 u=root n=ansible | TASK [splunk : Include prerequisites] *************************************************************************************************************************************************************************************************************
+2025-04-09 02:44:39,261 p=42190 u=root n=ansible | included: /opt/ansible-role-for-splunk/ansible-role-splunk/roles/splunk/tasks/prereqs.yml for rh8-ds-1, rh8-sh-1, rh8-idx-1, rh8-idx-2
+2025-04-09 02:44:39,291 p=42190 u=root n=ansible | TASK [splunk : install acl package] ***************************************************************************************************************************************************************************************************************
+2025-04-09 02:45:00,932 p=42190 u=root n=ansible | ok: [rh8-idx-2]
+2025-04-09 02:45:01,197 p=42190 u=root n=ansible | ok: [rh8-idx-1]
+2025-04-09 02:45:01,383 p=42190 u=root n=ansible | ok: [rh8-sh-1]
+2025-04-09 02:45:03,299 p=42190 u=root n=ansible | ok: [rh8-ds-1]
+2025-04-09 02:45:03,321 p=42190 u=root n=ansible | TASK [Reset value of start_splunk_handler_fired and configure_boot_start] *************************************************************************************************************************************************************************
+2025-04-09 02:45:03,359 p=42190 u=root n=ansible | ok: [rh8-ds-1]
+2025-04-09 02:45:03,424 p=42190 u=root n=ansible | ok: [rh8-sh-1]
+2025-04-09 02:45:03,456 p=42190 u=root n=ansible | ok: [rh8-idx-1]
+2025-04-09 02:45:03,470 p=42190 u=root n=ansible | ok: [rh8-idx-2]
+2025-04-09 02:45:03,491 p=42190 u=root n=ansible | TASK [splunk : Set boot-start method to systemd] **************************************************************************************************************************************************************************************************
+2025-04-09 02:45:03,586 p=42190 u=root n=ansible | ok: [rh8-ds-1]
+2025-04-09 02:45:03,587 p=42190 u=root n=ansible | ok: [rh8-sh-1]
+2025-04-09 02:45:03,606 p=42190 u=root n=ansible | ok: [rh8-idx-1]
+2025-04-09 02:45:03,635 p=42190 u=root n=ansible | ok: [rh8-idx-2]
+2025-04-09 02:45:03,656 p=42190 u=root n=ansible | TASK [splunk : Set boot-start method to initd] ****************************************************************************************************************************************************************************************************
+2025-04-09 02:45:03,691 p=42190 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:45:03,720 p=42190 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:45:03,750 p=42190 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:45:03,758 p=42190 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:45:03,778 p=42190 u=root n=ansible | TASK [splunk : Configure vars for full package] ***************************************************************************************************************************************************************************************************
+2025-04-09 02:45:03,877 p=42190 u=root n=ansible | ok: [rh8-ds-1]
+2025-04-09 02:45:03,879 p=42190 u=root n=ansible | ok: [rh8-sh-1]
+2025-04-09 02:45:03,903 p=42190 u=root n=ansible | ok: [rh8-idx-1]
+2025-04-09 02:45:03,935 p=42190 u=root n=ansible | ok: [rh8-idx-2]
+2025-04-09 02:45:03,956 p=42190 u=root n=ansible | TASK [Configure var for splunk systemd service handler] *******************************************************************************************************************************************************************************************
+2025-04-09 02:45:04,053 p=42190 u=root n=ansible | ok: [rh8-ds-1]
+2025-04-09 02:45:04,054 p=42190 u=root n=ansible | ok: [rh8-sh-1]
+2025-04-09 02:45:04,074 p=42190 u=root n=ansible | ok: [rh8-idx-1]
+2025-04-09 02:45:04,106 p=42190 u=root n=ansible | ok: [rh8-idx-2]
+2025-04-09 02:45:04,128 p=42190 u=root n=ansible | TASK [splunk : Configure vars for uf package] *****************************************************************************************************************************************************************************************************
+2025-04-09 02:45:04,193 p=42190 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:45:04,224 p=42190 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:45:04,237 p=42190 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:45:04,269 p=42190 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:45:04,291 p=42190 u=root n=ansible | TASK [splunk : Setting least priviledged mode] ****************************************************************************************************************************************************************************************************
+2025-04-09 02:45:04,357 p=42190 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:45:04,388 p=42190 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:45:04,398 p=42190 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:45:04,432 p=42190 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:45:04,452 p=42190 u=root n=ansible | TASK [Configure var for splunkforwarder systemd service handler] **********************************************************************************************************************************************************************************
+2025-04-09 02:45:04,521 p=42190 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:45:04,553 p=42190 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:45:04,563 p=42190 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:45:04,595 p=42190 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:45:04,615 p=42190 u=root n=ansible | TASK [Configure var for splunk init.d service handler] ********************************************************************************************************************************************************************************************
+2025-04-09 02:45:04,680 p=42190 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:45:04,715 p=42190 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:45:04,723 p=42190 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:45:04,757 p=42190 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:45:04,778 p=42190 u=root n=ansible | TASK [splunk : Check if Splunk is installed] ******************************************************************************************************************************************************************************************************
+2025-04-09 02:45:05,299 p=42190 u=root n=ansible | ok: [rh8-sh-1]
+2025-04-09 02:45:05,306 p=42190 u=root n=ansible | ok: [rh8-idx-2]
+2025-04-09 02:45:05,313 p=42190 u=root n=ansible | ok: [rh8-idx-1]
+2025-04-09 02:45:05,382 p=42190 u=root n=ansible | ok: [rh8-ds-1]
+2025-04-09 02:45:05,404 p=42190 u=root n=ansible | TASK [splunk : Check if active boot-start configuration is systemd] *******************************************************************************************************************************************************************************
+2025-04-09 02:45:05,775 p=42190 u=root n=ansible | ok: [rh8-ds-1]
+2025-04-09 02:45:05,795 p=42190 u=root n=ansible | ok: [rh8-sh-1]
+2025-04-09 02:45:05,838 p=42190 u=root n=ansible | ok: [rh8-idx-1]
+2025-04-09 02:45:05,869 p=42190 u=root n=ansible | ok: [rh8-idx-2]
+2025-04-09 02:45:05,891 p=42190 u=root n=ansible | TASK [Set current_start_method var to systemd if systemd is being used for splunk] ****************************************************************************************************************************************************************
+2025-04-09 02:45:05,987 p=42190 u=root n=ansible | ok: [rh8-ds-1]
+2025-04-09 02:45:05,988 p=42190 u=root n=ansible | ok: [rh8-sh-1]
+2025-04-09 02:45:06,009 p=42190 u=root n=ansible | ok: [rh8-idx-1]
+2025-04-09 02:45:06,040 p=42190 u=root n=ansible | ok: [rh8-idx-2]
+2025-04-09 02:45:06,061 p=42190 u=root n=ansible | TASK [splunk : Check if active boot-start method is init.d] ***************************************************************************************************************************************************************************************
+2025-04-09 02:45:06,420 p=42190 u=root n=ansible | ok: [rh8-ds-1]
+2025-04-09 02:45:06,421 p=42190 u=root n=ansible | ok: [rh8-sh-1]
+2025-04-09 02:45:06,477 p=42190 u=root n=ansible | ok: [rh8-idx-1]
+2025-04-09 02:45:06,532 p=42190 u=root n=ansible | ok: [rh8-idx-2]
+2025-04-09 02:45:06,552 p=42190 u=root n=ansible | TASK [Set current_start_method to initd if initd is being used for splunk] ************************************************************************************************************************************************************************
+2025-04-09 02:45:06,621 p=42190 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:45:06,654 p=42190 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:45:06,670 p=42190 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:45:06,702 p=42190 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:45:06,722 p=42190 u=root n=ansible | TASK [splunk : set current_start_method to disabled if boot-start is disabled] ********************************************************************************************************************************************************************
+2025-04-09 02:45:06,818 p=42190 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:45:06,820 p=42190 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:45:06,832 p=42190 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:45:06,866 p=42190 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:45:06,887 p=42190 u=root n=ansible | TASK [splunk : Set boot-start misconfigured var] **************************************************************************************************************************************************************************************************
+2025-04-09 02:45:06,960 p=42190 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:45:06,997 p=42190 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:45:07,009 p=42190 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:45:07,041 p=42190 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:45:07,063 p=42190 u=root n=ansible | TASK [splunk : Fail the play if the currently configured boot-start method does match the expected state or boot-start is not enabled] ************************************************************************************************************
+2025-04-09 02:45:07,132 p=42190 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:45:07,165 p=42190 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:45:07,178 p=42190 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:45:07,214 p=42190 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:45:07,237 p=42190 u=root n=ansible | TASK [splunk : Include the specified task file] ***************************************************************************************************************************************************************************************************
+2025-04-09 02:45:07,482 p=42190 u=root n=ansible | included: /opt/ansible-role-for-splunk/ansible-role-splunk/roles/splunk/tasks/check_splunk.yml for rh8-ds-1, rh8-sh-1, rh8-idx-1, rh8-idx-2
+2025-04-09 02:45:07,513 p=42190 u=root n=ansible | TASK [splunk : Check if Splunk is installed] ******************************************************************************************************************************************************************************************************
+2025-04-09 02:45:07,958 p=42190 u=root n=ansible | ok: [rh8-ds-1]
+2025-04-09 02:45:07,988 p=42190 u=root n=ansible | ok: [rh8-sh-1]
+2025-04-09 02:45:08,000 p=42190 u=root n=ansible | ok: [rh8-idx-1]
+2025-04-09 02:45:08,027 p=42190 u=root n=ansible | ok: [rh8-idx-2]
+2025-04-09 02:45:08,048 p=42190 u=root n=ansible | TASK [splunk : Install Splunk if not installed] ***************************************************************************************************************************************************************************************************
+2025-04-09 02:45:08,117 p=42190 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:45:08,150 p=42190 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:45:08,163 p=42190 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:45:08,197 p=42190 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:45:08,217 p=42190 u=root n=ansible | TASK [splunk : Configure license] *****************************************************************************************************************************************************************************************************************
+2025-04-09 02:45:08,455 p=42190 u=root n=ansible | included: /opt/ansible-role-for-splunk/ansible-role-splunk/roles/splunk/tasks/configure_license.yml for rh8-ds-1, rh8-sh-1, rh8-idx-1, rh8-idx-2
+2025-04-09 02:45:08,494 p=42190 u=root n=ansible | TASK [Run splunk version command to check currently installed version] ****************************************************************************************************************************************************************************
+2025-04-09 02:45:08,684 p=42190 u=root n=ansible | included: /opt/ansible-role-for-splunk/ansible-role-splunk/roles/splunk/tasks/check_splunk_version.yml for rh8-ds-1, rh8-sh-1, rh8-idx-1, rh8-idx-2
+2025-04-09 02:45:08,717 p=42190 u=root n=ansible | TASK [Run splunk version command to check currently installed version] ****************************************************************************************************************************************************************************
+2025-04-09 02:45:09,248 p=42190 u=root n=ansible | ok: [rh8-sh-1]
+2025-04-09 02:45:09,261 p=42190 u=root n=ansible | ok: [rh8-idx-2]
+2025-04-09 02:45:09,271 p=42190 u=root n=ansible | ok: [rh8-idx-1]
+2025-04-09 02:45:09,276 p=42190 u=root n=ansible | ok: [rh8-ds-1]
+2025-04-09 02:45:09,298 p=42190 u=root n=ansible | TASK [splunk : Get Splunk version number only] ****************************************************************************************************************************************************************************************************
+2025-04-09 02:45:09,368 p=42190 u=root n=ansible | ok: [rh8-ds-1]
+2025-04-09 02:45:09,400 p=42190 u=root n=ansible | ok: [rh8-sh-1]
+2025-04-09 02:45:09,402 p=42190 u=root n=ansible | ok: [rh8-idx-1]
+2025-04-09 02:45:09,423 p=42190 u=root n=ansible | ok: [rh8-idx-2]
+2025-04-09 02:45:09,444 p=42190 u=root n=ansible | TASK [splunk : Setting licensing mode based on Splunk version number] *****************************************************************************************************************************************************************************
+2025-04-09 02:45:09,511 p=42190 u=root n=ansible | ok: [rh8-ds-1]
+2025-04-09 02:45:09,545 p=42190 u=root n=ansible | ok: [rh8-sh-1]
+2025-04-09 02:45:09,547 p=42190 u=root n=ansible | ok: [rh8-idx-1]
+2025-04-09 02:45:09,568 p=42190 u=root n=ansible | ok: [rh8-idx-2]
+2025-04-09 02:45:09,590 p=42190 u=root n=ansible | TASK [splunk : Create license/enterprise directory] ***********************************************************************************************************************************************************************************************
+2025-04-09 02:45:09,656 p=42190 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:45:09,687 p=42190 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:45:09,688 p=42190 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:45:09,709 p=42190 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:45:09,733 p=42190 u=root n=ansible | TASK [splunk : Copy license file] *****************************************************************************************************************************************************************************************************************
+2025-04-09 02:45:09,864 p=42190 u=root n=ansible | TASK [splunk : Remove license manager uri when using local license] *******************************************************************************************************************************************************************************
+2025-04-09 02:45:10,328 p=42190 u=root n=ansible | ok: [rh8-sh-1] => (item=manager_uri)
+2025-04-09 02:45:10,337 p=42190 u=root n=ansible | ok: [rh8-idx-1] => (item=manager_uri)
+2025-04-09 02:45:10,338 p=42190 u=root n=ansible | ok: [rh8-idx-2] => (item=manager_uri)
+2025-04-09 02:45:10,339 p=42190 u=root n=ansible | ok: [rh8-ds-1] => (item=manager_uri)
+2025-04-09 02:45:10,625 p=42190 u=root n=ansible | ok: [rh8-sh-1] => (item=master_uri)
+2025-04-09 02:45:10,647 p=42190 u=root n=ansible | ok: [rh8-idx-1] => (item=master_uri)
+2025-04-09 02:45:10,651 p=42190 u=root n=ansible | ok: [rh8-ds-1] => (item=master_uri)
+2025-04-09 02:45:10,652 p=42190 u=root n=ansible | ok: [rh8-idx-2] => (item=master_uri)
+2025-04-09 02:45:10,675 p=42190 u=root n=ansible | TASK [splunk : Configure License Group] ***********************************************************************************************************************************************************************************************************
+2025-04-09 02:45:11,014 p=42190 u=root n=ansible | ok: [rh8-ds-1]
+2025-04-09 02:45:11,026 p=42190 u=root n=ansible | ok: [rh8-sh-1]
+2025-04-09 02:45:11,078 p=42190 u=root n=ansible | ok: [rh8-idx-1]
+2025-04-09 02:45:11,155 p=42190 u=root n=ansible | ok: [rh8-idx-2]
+2025-04-09 02:45:11,180 p=42190 u=root n=ansible | TASK [splunk : Set license manager_uri] ***********************************************************************************************************************************************************************************************************
+2025-04-09 02:45:11,217 p=42190 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:45:11,249 p=42190 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:45:11,281 p=42190 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:45:11,297 p=42190 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:45:11,320 p=42190 u=root n=ansible | TASK [splunk : Extract encrypted value] ***********************************************************************************************************************************************************************************************************
+2025-04-09 02:45:11,359 p=42190 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:45:11,391 p=42190 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:45:11,422 p=42190 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:45:11,438 p=42190 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:45:11,460 p=42190 u=root n=ansible | TASK [splunk : Set pass4SymmKey to match LM] ******************************************************************************************************************************************************************************************************
+2025-04-09 02:45:11,495 p=42190 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:45:11,525 p=42190 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:45:11,558 p=42190 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:45:11,574 p=42190 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:45:11,596 p=42190 u=root n=ansible | TASK [splunk : Configure Auditd] ******************************************************************************************************************************************************************************************************************
+2025-04-09 02:45:11,631 p=42190 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:45:11,662 p=42190 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:45:11,692 p=42190 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:45:11,700 p=42190 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:45:11,722 p=42190 u=root n=ansible | TASK [Run splunk version command to check currently installed version] ****************************************************************************************************************************************************************************
+2025-04-09 02:45:11,933 p=42190 u=root n=ansible | included: /opt/ansible-role-for-splunk/ansible-role-splunk/roles/splunk/tasks/check_splunk_version.yml for rh8-ds-1, rh8-sh-1, rh8-idx-1, rh8-idx-2
+2025-04-09 02:45:12,010 p=42190 u=root n=ansible | TASK [Run splunk version command to check currently installed version] ****************************************************************************************************************************************************************************
+2025-04-09 02:45:12,363 p=42190 u=root n=ansible | ok: [rh8-ds-1]
+2025-04-09 02:45:12,378 p=42190 u=root n=ansible | ok: [rh8-sh-1]
+2025-04-09 02:45:12,430 p=42190 u=root n=ansible | ok: [rh8-idx-1]
+2025-04-09 02:45:12,467 p=42190 u=root n=ansible | ok: [rh8-idx-2]
+2025-04-09 02:45:12,488 p=42190 u=root n=ansible | TASK [splunk : Get Splunk version number only] ****************************************************************************************************************************************************************************************************
+2025-04-09 02:45:12,559 p=42190 u=root n=ansible | ok: [rh8-ds-1]
+2025-04-09 02:45:12,594 p=42190 u=root n=ansible | ok: [rh8-sh-1]
+2025-04-09 02:45:12,596 p=42190 u=root n=ansible | ok: [rh8-idx-1]
+2025-04-09 02:45:12,621 p=42190 u=root n=ansible | ok: [rh8-idx-2]
+2025-04-09 02:45:12,643 p=42190 u=root n=ansible | TASK [splunk : Checkpoint: Version] ***************************************************************************************************************************************************************************************************************
+2025-04-09 02:45:12,713 p=42190 u=root n=ansible | ok: [rh8-ds-1] => 
+  msg: 'The value of splunk_package_version is: 9.3.0 and the splunk_version_release is: 9.3.0'
+2025-04-09 02:45:12,745 p=42190 u=root n=ansible | ok: [rh8-sh-1] => 
+  msg: 'The value of splunk_package_version is: 9.3.0 and the splunk_version_release is: 9.3.0'
+2025-04-09 02:45:12,747 p=42190 u=root n=ansible | ok: [rh8-idx-1] => 
+  msg: 'The value of splunk_package_version is: 9.3.0 and the splunk_version_release is: 9.3.0'
+2025-04-09 02:45:12,768 p=42190 u=root n=ansible | ok: [rh8-idx-2] => 
+  msg: 'The value of splunk_package_version is: 9.3.0 and the splunk_version_release is: 9.3.0'
+2025-04-09 02:45:12,792 p=42190 u=root n=ansible | TASK [splunk : Checkpoint: Package] ***************************************************************************************************************************************************************************************************************
+2025-04-09 02:45:12,859 p=42190 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:45:12,890 p=42190 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:45:12,892 p=42190 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:45:12,911 p=42190 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:45:12,932 p=42190 u=root n=ansible | TASK [splunk : Check if Splunk needs to be stopped if we are not at the expected version] *********************************************************************************************************************************************************
+2025-04-09 02:45:13,001 p=42190 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:45:13,034 p=42190 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:45:13,036 p=42190 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:45:13,055 p=42190 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:45:13,076 p=42190 u=root n=ansible | TASK [Stop Splunk if not at expected version and splunk is currently running] *********************************************************************************************************************************************************************
+2025-04-09 02:45:13,143 p=42190 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:45:13,176 p=42190 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:45:13,178 p=42190 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:45:13,195 p=42190 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:45:13,219 p=42190 u=root n=ansible | TASK [splunk : Upgrade Splunk if not at expected version] *****************************************************************************************************************************************************************************************
+2025-04-09 02:45:13,255 p=42190 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:45:13,288 p=42190 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:45:13,320 p=42190 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:45:13,340 p=42190 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:45:13,344 p=42190 u=root n=ansible | PLAY RECAP ****************************************************************************************************************************************************************************************************************************************
+2025-04-09 02:45:13,345 p=42190 u=root n=ansible | rh8-ds-1                   : ok=23   changed=0    unreachable=0    failed=0    skipped=20   rescued=0    ignored=0   
+2025-04-09 02:45:13,345 p=42190 u=root n=ansible | rh8-idx-1                  : ok=23   changed=0    unreachable=0    failed=0    skipped=20   rescued=0    ignored=0   
+2025-04-09 02:45:13,345 p=42190 u=root n=ansible | rh8-idx-2                  : ok=23   changed=0    unreachable=0    failed=0    skipped=20   rescued=0    ignored=0   
+2025-04-09 02:45:13,346 p=42190 u=root n=ansible | rh8-sh-1                   : ok=23   changed=0    unreachable=0    failed=0    skipped=20   rescued=0    ignored=0   
+2025-04-09 02:49:08,348 p=42957 u=root n=ansible | Encryption successful
+2025-04-09 02:49:49,485 p=43080 u=root n=ansible | Decryption successful
+2025-04-09 02:50:51,412 p=43145 u=root n=ansible | ERROR! input is not vault encrypted data/opt/ansible-role-for-splunk/ansible-role-splunk/roles/splunk/files/splunk.secret is not a vault encrypted file for /opt/ansible-role-for-splunk/ansible-role-splunk/roles/splunk/files/splunk.secret
+2025-04-09 02:51:18,636 p=43260 u=root n=ansible | Decryption successful
+2025-04-09 02:53:48,201 p=43337 u=root n=ansible | Encryption successful
+2025-04-09 02:54:12,906 p=43405 u=root n=ansible | PLAY [Remove Splunk Installation Playbook] ***********************************************************************************************************
+2025-04-09 02:54:12,944 p=43405 u=root n=ansible | TASK [Warning 1: This will completely remove Splunk from the target systems.] ************************************************************************
+2025-04-09 02:54:12,968 p=43414 u=root n=ansible | [Warning 1: This will completely remove Splunk from the target systems.]
+WARNING 1: Are you sure you want to proceed? (yes/no):
+2025-04-09 02:54:14,653 p=43405 u=root n=ansible | ok: [rh8-ds-1]
+2025-04-09 02:54:14,672 p=43405 u=root n=ansible | TASK [Warning 2: All Splunk data and configurations will be deleted.] ********************************************************************************
+2025-04-09 02:54:14,691 p=43433 u=root n=ansible | [Warning 2: All Splunk data and configurations will be deleted.]
+WARNING 2: Do you understand the implications? (yes/no):
+2025-04-09 02:54:14,763 p=43405 u=root n=ansible | ok: [rh8-ds-1]
+2025-04-09 02:54:14,783 p=43405 u=root n=ansible | TASK [Warning 3: This action is irreversible. Proceed with caution.] *********************************************************************************
+2025-04-09 02:54:14,801 p=43435 u=root n=ansible | [Warning 3: This action is irreversible. Proceed with caution.]
+WARNING 3: Confirm to continue with the uninstallation. (yes/no):
+2025-04-09 02:54:14,940 p=43405 u=root n=ansible | ok: [rh8-ds-1]
+2025-04-09 02:54:14,967 p=43405 u=root n=ansible | TASK [Remove Splunk] *********************************************************************************************************************************
+2025-04-09 02:54:15,282 p=43405 u=root n=ansible | TASK [splunk : Include prerequisites] ****************************************************************************************************************
+2025-04-09 02:54:15,467 p=43405 u=root n=ansible | included: /opt/ansible-role-for-splunk/ansible-role-splunk/roles/splunk/tasks/prereqs.yml for rh8-ds-1, rh8-sh-1, rh8-idx-1, rh8-idx-2
+2025-04-09 02:54:15,499 p=43405 u=root n=ansible | TASK [splunk : install acl package] ******************************************************************************************************************
+2025-04-09 02:54:27,612 p=43405 u=root n=ansible | ok: [rh8-sh-1]
+2025-04-09 02:54:28,260 p=43405 u=root n=ansible | ok: [rh8-idx-2]
+2025-04-09 02:54:28,261 p=43405 u=root n=ansible | ok: [rh8-idx-1]
+2025-04-09 02:54:28,801 p=43405 u=root n=ansible | ok: [rh8-ds-1]
+2025-04-09 02:54:28,821 p=43405 u=root n=ansible | TASK [Reset value of start_splunk_handler_fired and configure_boot_start] ****************************************************************************
+2025-04-09 02:54:28,857 p=43405 u=root n=ansible | ok: [rh8-ds-1]
+2025-04-09 02:54:28,887 p=43405 u=root n=ansible | ok: [rh8-sh-1]
+2025-04-09 02:54:28,918 p=43405 u=root n=ansible | ok: [rh8-idx-1]
+2025-04-09 02:54:28,932 p=43405 u=root n=ansible | ok: [rh8-idx-2]
+2025-04-09 02:54:28,953 p=43405 u=root n=ansible | TASK [splunk : Set boot-start method to systemd] *****************************************************************************************************
+2025-04-09 02:54:29,019 p=43405 u=root n=ansible | ok: [rh8-ds-1]
+2025-04-09 02:54:29,051 p=43405 u=root n=ansible | ok: [rh8-sh-1]
+2025-04-09 02:54:29,066 p=43405 u=root n=ansible | ok: [rh8-idx-1]
+2025-04-09 02:54:29,099 p=43405 u=root n=ansible | ok: [rh8-idx-2]
+2025-04-09 02:54:29,120 p=43405 u=root n=ansible | TASK [splunk : Set boot-start method to initd] *******************************************************************************************************
+2025-04-09 02:54:29,153 p=43405 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:54:29,182 p=43405 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:54:29,212 p=43405 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:54:29,220 p=43405 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:54:29,241 p=43405 u=root n=ansible | TASK [splunk : Configure vars for full package] ******************************************************************************************************
+2025-04-09 02:54:29,338 p=43405 u=root n=ansible | ok: [rh8-ds-1]
+2025-04-09 02:54:29,339 p=43405 u=root n=ansible | ok: [rh8-sh-1]
+2025-04-09 02:54:29,362 p=43405 u=root n=ansible | ok: [rh8-idx-1]
+2025-04-09 02:54:29,394 p=43405 u=root n=ansible | ok: [rh8-idx-2]
+2025-04-09 02:54:29,415 p=43405 u=root n=ansible | TASK [Configure var for splunk systemd service handler] **********************************************************************************************
+2025-04-09 02:54:29,549 p=43405 u=root n=ansible | ok: [rh8-ds-1]
+2025-04-09 02:54:29,551 p=43405 u=root n=ansible | ok: [rh8-sh-1]
+2025-04-09 02:54:29,571 p=43405 u=root n=ansible | ok: [rh8-idx-1]
+2025-04-09 02:54:29,602 p=43405 u=root n=ansible | ok: [rh8-idx-2]
+2025-04-09 02:54:29,623 p=43405 u=root n=ansible | TASK [splunk : Configure vars for uf package] ********************************************************************************************************
+2025-04-09 02:54:29,686 p=43405 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:54:29,719 p=43405 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:54:29,730 p=43405 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:54:29,763 p=43405 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:54:29,783 p=43405 u=root n=ansible | TASK [splunk : Setting least priviledged mode] *******************************************************************************************************
+2025-04-09 02:54:29,849 p=43405 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:54:29,880 p=43405 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:54:29,893 p=43405 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:54:29,926 p=43405 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:54:29,948 p=43405 u=root n=ansible | TASK [Configure var for splunkforwarder systemd service handler] *************************************************************************************
+2025-04-09 02:54:30,015 p=43405 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:54:30,046 p=43405 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:54:30,057 p=43405 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:54:30,089 p=43405 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:54:30,110 p=43405 u=root n=ansible | TASK [Configure var for splunk init.d service handler] ***********************************************************************************************
+2025-04-09 02:54:30,177 p=43405 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:54:30,208 p=43405 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:54:30,219 p=43405 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:54:30,250 p=43405 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:54:30,271 p=43405 u=root n=ansible | TASK [splunk : Check if Splunk is installed] *********************************************************************************************************
+2025-04-09 02:54:30,716 p=43405 u=root n=ansible | ok: [rh8-sh-1]
+2025-04-09 02:54:30,733 p=43405 u=root n=ansible | ok: [rh8-idx-2]
+2025-04-09 02:54:30,742 p=43405 u=root n=ansible | ok: [rh8-idx-1]
+2025-04-09 02:54:30,750 p=43405 u=root n=ansible | ok: [rh8-ds-1]
+2025-04-09 02:54:30,772 p=43405 u=root n=ansible | TASK [splunk : Check if active boot-start configuration is systemd] **********************************************************************************
+2025-04-09 02:54:31,145 p=43405 u=root n=ansible | ok: [rh8-ds-1]
+2025-04-09 02:54:31,161 p=43405 u=root n=ansible | ok: [rh8-sh-1]
+2025-04-09 02:54:31,219 p=43405 u=root n=ansible | ok: [rh8-idx-1]
+2025-04-09 02:54:31,270 p=43405 u=root n=ansible | ok: [rh8-idx-2]
+2025-04-09 02:54:31,292 p=43405 u=root n=ansible | TASK [Set current_start_method var to systemd if systemd is being used for splunk] *******************************************************************
+2025-04-09 02:54:31,359 p=43405 u=root n=ansible | ok: [rh8-ds-1]
+2025-04-09 02:54:31,394 p=43405 u=root n=ansible | ok: [rh8-sh-1]
+2025-04-09 02:54:31,413 p=43405 u=root n=ansible | ok: [rh8-idx-1]
+2025-04-09 02:54:31,446 p=43405 u=root n=ansible | ok: [rh8-idx-2]
+2025-04-09 02:54:31,466 p=43405 u=root n=ansible | TASK [splunk : Check if active boot-start method is init.d] ******************************************************************************************
+2025-04-09 02:54:31,814 p=43405 u=root n=ansible | ok: [rh8-ds-1]
+2025-04-09 02:54:31,828 p=43405 u=root n=ansible | ok: [rh8-sh-1]
+2025-04-09 02:54:31,875 p=43405 u=root n=ansible | ok: [rh8-idx-1]
+2025-04-09 02:54:31,910 p=43405 u=root n=ansible | ok: [rh8-idx-2]
+2025-04-09 02:54:31,931 p=43405 u=root n=ansible | TASK [Set current_start_method to initd if initd is being used for splunk] ***************************************************************************
+2025-04-09 02:54:31,997 p=43405 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:54:32,030 p=43405 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:54:32,044 p=43405 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:54:32,075 p=43405 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:54:32,096 p=43405 u=root n=ansible | TASK [splunk : set current_start_method to disabled if boot-start is disabled] ***********************************************************************
+2025-04-09 02:54:32,163 p=43405 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:54:32,195 p=43405 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:54:32,211 p=43405 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:54:32,242 p=43405 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:54:32,265 p=43405 u=root n=ansible | TASK [splunk : Set boot-start misconfigured var] *****************************************************************************************************
+2025-04-09 02:54:32,332 p=43405 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:54:32,364 p=43405 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:54:32,374 p=43405 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:54:32,406 p=43405 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:54:32,427 p=43405 u=root n=ansible | TASK [splunk : Fail the play if the currently configured boot-start method does match the expected state or boot-start is not enabled] ***************
+2025-04-09 02:54:32,542 p=43405 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:54:32,575 p=43405 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:54:32,587 p=43405 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:54:32,621 p=43405 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:54:32,642 p=43405 u=root n=ansible | TASK [splunk : Include the specified task file] ******************************************************************************************************
+2025-04-09 02:54:32,892 p=43405 u=root n=ansible | included: /opt/ansible-role-for-splunk/ansible-role-splunk/roles/splunk/tasks/remove_splunk.yml for rh8-ds-1, rh8-sh-1, rh8-idx-1, rh8-idx-2
+2025-04-09 02:54:32,927 p=43405 u=root n=ansible | TASK [splunk : ansible.builtin.include_tasks] ********************************************************************************************************
+2025-04-09 02:54:33,141 p=43405 u=root n=ansible | included: /opt/ansible-role-for-splunk/ansible-role-splunk/roles/splunk/tasks/splunk_stop.yml for rh8-ds-1, rh8-sh-1, rh8-idx-1, rh8-idx-2
+2025-04-09 02:54:33,177 p=43405 u=root n=ansible | TASK [Stop splunk] ***********************************************************************************************************************************
+2025-04-09 02:54:44,744 p=43405 u=root n=ansible | changed: [rh8-sh-1]
+2025-04-09 02:54:44,932 p=43405 u=root n=ansible | changed: [rh8-idx-2]
+2025-04-09 02:54:44,976 p=43405 u=root n=ansible | changed: [rh8-ds-1]
+2025-04-09 02:54:45,101 p=43405 u=root n=ansible | changed: [rh8-idx-1]
+2025-04-09 02:54:45,122 p=43405 u=root n=ansible | TASK [splunk : Disable boot-start] *******************************************************************************************************************
+2025-04-09 02:54:46,031 p=43405 u=root n=ansible | changed: [rh8-idx-1]
+2025-04-09 02:54:46,071 p=43405 u=root n=ansible | changed: [rh8-ds-1]
+2025-04-09 02:54:46,143 p=43405 u=root n=ansible | changed: [rh8-sh-1]
+2025-04-09 02:54:46,172 p=43405 u=root n=ansible | changed: [rh8-idx-2]
+2025-04-09 02:54:46,193 p=43405 u=root n=ansible | TASK [Remove splunk folder] **************************************************************************************************************************
+2025-04-09 02:54:52,766 p=43405 u=root n=ansible | changed: [rh8-sh-1]
+2025-04-09 02:54:53,291 p=43405 u=root n=ansible | changed: [rh8-idx-1]
+2025-04-09 02:54:53,433 p=43405 u=root n=ansible | changed: [rh8-idx-2]
+2025-04-09 02:54:53,570 p=43405 u=root n=ansible | changed: [rh8-ds-1]
+2025-04-09 02:54:53,601 p=43405 u=root n=ansible | TASK [Remove splunk service drop-in directory] *******************************************************************************************************
+2025-04-09 02:54:53,944 p=43405 u=root n=ansible | changed: [rh8-ds-1]
+2025-04-09 02:54:54,010 p=43405 u=root n=ansible | changed: [rh8-sh-1]
+2025-04-09 02:54:54,011 p=43405 u=root n=ansible | changed: [rh8-idx-1]
+2025-04-09 02:54:54,036 p=43405 u=root n=ansible | changed: [rh8-idx-2]
+2025-04-09 02:54:54,064 p=43405 u=root n=ansible | TASK [Remove nix splunk user] ************************************************************************************************************************
+2025-04-09 02:54:54,681 p=43405 u=root n=ansible | changed: [rh8-sh-1]
+2025-04-09 02:54:54,716 p=43405 u=root n=ansible | changed: [rh8-ds-1]
+2025-04-09 02:54:54,736 p=43405 u=root n=ansible | changed: [rh8-idx-2]
+2025-04-09 02:54:54,745 p=43405 u=root n=ansible | changed: [rh8-idx-1]
+2025-04-09 02:54:54,766 p=43405 u=root n=ansible | TASK [Remove nix splunk group] ***********************************************************************************************************************
+2025-04-09 02:54:55,204 p=43405 u=root n=ansible | ok: [rh8-sh-1]
+2025-04-09 02:54:55,216 p=43405 u=root n=ansible | ok: [rh8-ds-1]
+2025-04-09 02:54:55,218 p=43405 u=root n=ansible | ok: [rh8-idx-1]
+2025-04-09 02:54:55,221 p=43405 u=root n=ansible | ok: [rh8-idx-2]
+2025-04-09 02:54:55,244 p=43405 u=root n=ansible | TASK [splunk : Remove disable-thp service to systemd (CentOS/RHEL 7+)] *******************************************************************************
+2025-04-09 02:54:55,584 p=43405 u=root n=ansible | changed: [rh8-ds-1]
+2025-04-09 02:54:55,599 p=43405 u=root n=ansible | changed: [rh8-sh-1]
+2025-04-09 02:54:55,647 p=43405 u=root n=ansible | changed: [rh8-idx-1]
+2025-04-09 02:54:55,685 p=43405 u=root n=ansible | changed: [rh8-idx-2]
+2025-04-09 02:54:55,706 p=43405 u=root n=ansible | TASK [splunk : Remove ulimits] ***********************************************************************************************************************
+2025-04-09 02:54:55,741 p=43405 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:54:55,773 p=43405 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:54:55,806 p=43405 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:54:55,815 p=43405 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:54:55,837 p=43405 u=root n=ansible | TASK [Remove splunk firewalld service] ***************************************************************************************************************
+2025-04-09 02:54:55,903 p=43405 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:54:55,935 p=43405 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:54:55,936 p=43405 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:54:55,953 p=43405 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:54:55,976 p=43405 u=root n=ansible | TASK [splunk : Remove firewalld service] *************************************************************************************************************
+2025-04-09 02:54:56,043 p=43405 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:54:56,074 p=43405 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:54:56,075 p=43405 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:54:56,093 p=43405 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:54:56,114 p=43405 u=root n=ansible | TASK [splunk : Remove UFW ports] *********************************************************************************************************************
+2025-04-09 02:54:56,186 p=43405 u=root n=ansible | skipping: [rh8-ds-1] => (item={'desc': 'Splunk Web', 'protocol': 'tcp', 'number': 8000}) 
+2025-04-09 02:54:56,188 p=43405 u=root n=ansible | skipping: [rh8-ds-1] => (item={'desc': 'Splunk API', 'protocol': 'tcp', 'number': 8089}) 
+2025-04-09 02:54:56,223 p=43405 u=root n=ansible | skipping: [rh8-sh-1] => (item={'desc': 'Splunk Web', 'protocol': 'tcp', 'number': 8000}) 
+2025-04-09 02:54:56,225 p=43405 u=root n=ansible | skipping: [rh8-sh-1] => (item={'desc': 'Splunk API', 'protocol': 'tcp', 'number': 8089}) 
+2025-04-09 02:54:56,226 p=43405 u=root n=ansible | skipping: [rh8-sh-1] => (item={'desc': 'Splunk Search Head Clustering Replication', 'protocol': 'tcp', 'number': 8100}) 
+2025-04-09 02:54:56,228 p=43405 u=root n=ansible | skipping: [rh8-idx-1] => (item={'desc': 'Splunk Web', 'protocol': 'tcp', 'number': 8000}) 
+2025-04-09 02:54:56,233 p=43405 u=root n=ansible | skipping: [rh8-idx-1] => (item={'desc': 'Splunk API', 'protocol': 'tcp', 'number': 8089}) 
+2025-04-09 02:54:56,242 p=43405 u=root n=ansible | skipping: [rh8-idx-1] => (item={'desc': 'Splunk TCPIN', 'protocol': 'tcp', 'number': 9997}) 
+2025-04-09 02:54:56,252 p=43405 u=root n=ansible | skipping: [rh8-idx-1] => (item={'desc': 'Splunk HEC', 'protocol': 'tcp', 'number': 8088}) 
+2025-04-09 02:54:56,260 p=43405 u=root n=ansible | skipping: [rh8-idx-1] => (item={'desc': 'Splunk Indexer Clustering Replication', 'protocol': 'tcp', 'number': 9887}) 
+2025-04-09 02:54:56,263 p=43405 u=root n=ansible | skipping: [rh8-idx-2] => (item={'desc': 'Splunk Web', 'protocol': 'tcp', 'number': 8000}) 
+2025-04-09 02:54:56,271 p=43405 u=root n=ansible | skipping: [rh8-idx-2] => (item={'desc': 'Splunk API', 'protocol': 'tcp', 'number': 8089}) 
+2025-04-09 02:54:56,281 p=43405 u=root n=ansible | skipping: [rh8-idx-2] => (item={'desc': 'Splunk TCPIN', 'protocol': 'tcp', 'number': 9997}) 
+2025-04-09 02:54:56,291 p=43405 u=root n=ansible | skipping: [rh8-idx-2] => (item={'desc': 'Splunk HEC', 'protocol': 'tcp', 'number': 8088}) 
+2025-04-09 02:54:56,299 p=43405 u=root n=ansible | skipping: [rh8-idx-2] => (item={'desc': 'Splunk Indexer Clustering Replication', 'protocol': 'tcp', 'number': 9887}) 
+2025-04-09 02:54:56,321 p=43405 u=root n=ansible | TASK [splunk : Remove setfacl to logrotate script] ***************************************************************************************************
+2025-04-09 02:54:56,786 p=43405 u=root n=ansible | changed: [rh8-sh-1]
+2025-04-09 02:54:56,800 p=43405 u=root n=ansible | changed: [rh8-idx-1]
+2025-04-09 02:54:56,801 p=43405 u=root n=ansible | changed: [rh8-idx-2]
+2025-04-09 02:54:56,803 p=43405 u=root n=ansible | changed: [rh8-ds-1]
+2025-04-09 02:54:56,825 p=43405 u=root n=ansible | TASK [splunk : Check if auditd.conf is present] ******************************************************************************************************
+2025-04-09 02:54:57,170 p=43405 u=root n=ansible | ok: [rh8-ds-1]
+2025-04-09 02:54:57,188 p=43405 u=root n=ansible | ok: [rh8-sh-1]
+2025-04-09 02:54:57,221 p=43405 u=root n=ansible | ok: [rh8-idx-1]
+2025-04-09 02:54:57,258 p=43405 u=root n=ansible | ok: [rh8-idx-2]
+2025-04-09 02:54:57,280 p=43405 u=root n=ansible | TASK [splunk : Remove line from /var/log/audit.log] **************************************************************************************************
+2025-04-09 02:54:57,748 p=43405 u=root n=ansible | changed: [rh8-sh-1]
+2025-04-09 02:54:57,759 p=43405 u=root n=ansible | changed: [rh8-idx-2]
+2025-04-09 02:54:57,760 p=43405 u=root n=ansible | changed: [rh8-ds-1]
+2025-04-09 02:54:57,762 p=43405 u=root n=ansible | changed: [rh8-idx-1]
+2025-04-09 02:54:57,763 p=43405 u=root n=ansible | RUNNING HANDLER [splunk : reload systemctl daemon] ***************************************************************************************************
+2025-04-09 02:54:58,883 p=43405 u=root n=ansible | ok: [rh8-idx-2]
+2025-04-09 02:54:58,890 p=43405 u=root n=ansible | ok: [rh8-sh-1]
+2025-04-09 02:54:58,896 p=43405 u=root n=ansible | ok: [rh8-idx-1]
+2025-04-09 02:54:58,917 p=43405 u=root n=ansible | ok: [rh8-ds-1]
+2025-04-09 02:54:58,918 p=43405 u=root n=ansible | RUNNING HANDLER [splunk : restart redhat auditd service] *********************************************************************************************
+2025-04-09 02:55:00,537 p=43405 u=root n=ansible | changed: [rh8-sh-1]
+2025-04-09 02:55:00,544 p=43405 u=root n=ansible | changed: [rh8-idx-1]
+2025-04-09 02:55:00,555 p=43405 u=root n=ansible | changed: [rh8-idx-2]
+2025-04-09 02:55:00,557 p=43405 u=root n=ansible | changed: [rh8-ds-1]
+2025-04-09 02:55:00,558 p=43405 u=root n=ansible | RUNNING HANDLER [splunk : restart non-redhat auditd service] *****************************************************************************************
+2025-04-09 02:55:00,673 p=43405 u=root n=ansible | skipping: [rh8-sh-1]
+2025-04-09 02:55:00,674 p=43405 u=root n=ansible | skipping: [rh8-idx-2]
+2025-04-09 02:55:00,675 p=43405 u=root n=ansible | skipping: [rh8-ds-1]
+2025-04-09 02:55:00,689 p=43405 u=root n=ansible | skipping: [rh8-idx-1]
+2025-04-09 02:55:00,692 p=43405 u=root n=ansible | PLAY RECAP *******************************************************************************************************************************************
+2025-04-09 02:55:00,692 p=43405 u=root n=ansible | rh8-ds-1                   : ok=27   changed=9    unreachable=0    failed=0    skipped=14   rescued=0    ignored=0   
+2025-04-09 02:55:00,692 p=43405 u=root n=ansible | rh8-idx-1                  : ok=24   changed=9    unreachable=0    failed=0    skipped=14   rescued=0    ignored=0   
+2025-04-09 02:55:00,693 p=43405 u=root n=ansible | rh8-idx-2                  : ok=24   changed=9    unreachable=0    failed=0    skipped=14   rescued=0    ignored=0   
+2025-04-09 02:55:00,693 p=43405 u=root n=ansible | rh8-sh-1                   : ok=24   changed=9    unreachable=0    failed=0    skipped=14   rescued=0    ignored=0   
