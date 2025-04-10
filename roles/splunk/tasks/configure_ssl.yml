@@ -1,0 +1,117 @@
+---
+- name: Create a directory if it does not exist
+  ansible.builtin.file:
+    path: "{{ controller_packages_dir | default(lookup('env', 'PWD')) }}"
+    state: directory
+    mode: '0755'
+  delegate_to: localhost
+  run_once: true
+
+- name: Create private key with password protection
+  community.crypto.openssl_privatekey:
+    path: "{{ controller_packages_dir | default(lookup('env', 'PWD')) }}/ca-certificate.key"
+    passphrase: "{{ secret_ca_passphrase }}"
+  delegate_to: localhost
+  register: ca_private_key
+  run_once: true
+
+- name: Create certificate signing request (CSR) for CA certificate
+  community.crypto.openssl_csr_pipe:
+    privatekey_path: "{{ controller_packages_dir | default(lookup('env', 'PWD')) }}/ca-certificate.key"
+    privatekey_passphrase: "{{ secret_ca_passphrase }}"
+    common_name: Ansible CA
+    use_common_name_for_san: false  # since we do not specify SANs, don't use CN as a SAN
+    basic_constraints:
+      - 'CA:TRUE'
+    basic_constraints_critical: true
+    key_usage:
+      - keyCertSign
+    key_usage_critical: true
+  register: ca_csr
+  delegate_to: localhost
+  run_once: true
+
+- name: Create self-signed CA certificate from CSR
+  community.crypto.x509_certificate:
+    path: "{{ controller_packages_dir | default(lookup('env', 'PWD')) }}/ca-certificate.pem"
+    csr_content: "{{ ca_csr.csr }}"
+    privatekey_path: "{{ controller_packages_dir | default(lookup('env', 'PWD')) }}/ca-certificate.key"
+    privatekey_passphrase: "{{ secret_ca_passphrase }}"
+    provider: selfsigned
+  delegate_to: localhost
+  register: ca_certificate
+  run_once: true
+
+# - name: Configure SSL for Splunk Instances
+#   block:
+#     - name: Ensure the SSL certificate directory exists
+#       ansible.builtin.file:
+#         path: "{{ splunk_home }}/etc/auth/{{ ssl_cert_dir }}"
+#         state: directory
+#         owner: "{{ splunk_nix_user }}"
+#         group: "{{ splunk_nix_group }}"
+#         mode: '0755'
+
+#     - name: Generate Root CA private key
+#       ansible.builtin.command: >
+#         openssl genrsa -out {{ splunk_home }}/etc/auth/{{ ssl_cert_dir }}/rootCA.key 2048
+#       args:
+#         creates: "{{ splunk_home }}/etc/auth/{{ ssl_cert_dir }}/rootCA.key"
+
+#     - name: Generate Root CA certificate
+#       ansible.builtin.command: >
+#         openssl req -x509 -new -nodes -key {{ splunk_home }}/etc/auth/{{ ssl_cert_dir }}/rootCA.key
+#         -sha256 -days 1024 -out {{ splunk_home }}/etc/auth/{{ ssl_cert_dir }}/rootCA.crt
+#         -subj "/C=US/ST=State/L=City/O=Organization/OU=Unit/CN=RootCA"
+#       args:
+#         creates: "{{ splunk_home }}/etc/auth/{{ ssl_cert_dir }}/rootCA.crt"
+
+#     - name: Generate server private key
+#       ansible.builtin.command: >
+#         openssl genrsa -out {{ splunk_home }}/etc/auth/{{ ssl_cert_dir }}/{{ ssl_key_name }} 2048
+#       args:
+#         creates: "{{ splunk_home }}/etc/auth/{{ ssl_cert_dir }}/{{ ssl_key_name }}"
+
+#     - name: Generate server certificate signing request (CSR)
+#       ansible.builtin.command: >
+#         openssl req -new -key {{ splunk_home }}/etc/auth/{{ ssl_cert_dir }}/{{ ssl_key_name }}
+#         -out {{ splunk_home }}/etc/auth/{{ ssl_cert_dir }}/server.csr
+#         -subj "/C=US/ST=State/L=City/O=Organization/OU=Unit/CN={{ ansible_fqdn }}"
+#       args:
+#         creates: "{{ splunk_home }}/etc/auth/{{ ssl_cert_dir }}/server.csr"
+
+#     - name: Sign server certificate with Root CA
+#       ansible.builtin.command: >
+#         openssl x509 -req -in {{ splunk_home }}/etc/auth/{{ ssl_cert_dir }}/server.csr
+#         -CA {{ splunk_home }}/etc/auth/{{ ssl_cert_dir }}/rootCA.crt
+#         -CAkey {{ splunk_home }}/etc/auth/{{ ssl_cert_dir }}/rootCA.key
+#         -CAcreateserial -out {{ splunk_home }}/etc/auth/{{ ssl_cert_dir }}/{{ ssl_cert_name }}
+#         -days 500 -sha256
+#       args:
+#         creates: "{{ splunk_home }}/etc/auth/{{ ssl_cert_dir }}/{{ ssl_cert_name }}"
+
+#     - name: Update Splunk configuration for SSL
+#       ansible.builtin.lineinfile:
+#         path: "{{ splunk_home }}/etc/system/local/server.conf"
+#         create: true
+#         owner: "{{ splunk_nix_user }}"
+#         group: "{{ splunk_nix_group }}"
+#         mode: '0644'
+#         line: "{{ item }}"
+#       with_items:
+#         - "[sslConfig]"
+#         - "enableSplunkdSSL = true"
+#         - "serverCert = etc/auth/{{ ssl_cert_dir }}/{{ ssl_cert_name }}"
+#         - "sslPassword = {{ ssl_password }}"
+#         - "privKeyPath = etc/auth/{{ ssl_cert_dir }}/{{ ssl_key_name }}"
+
+#     - name: Restart Splunk to apply SSL configuration
+#       ansible.builtin.service:
+#         name: "{{ systemd_unit_full }}"
+#         state: restarted
+#       become: true
+#   when:
+#     - ssl_cert_dir is defined
+#     - ssl_cert_name is defined
+#     - ssl_key_name is defined
+#     - ssl_password is defined
