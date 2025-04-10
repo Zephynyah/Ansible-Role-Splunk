@@ -1,4 +1,11 @@
 ---
+- name: Set download archive file
+  ansible.builtin.set_fact:
+     splunk_package_file_path: "{{ splunk_package_path | regex_replace('/$', '') }}/{{ splunk_file }}"
+  when: 
+    - splunk_package_path is defined 
+    - splunk_file is defined
+
 - ansible.builtin.debug:
     msg: "The splunk_package_url is set to: {{ splunk_package_url }}"
 
@@ -6,13 +13,13 @@
     msg: "The filename that will be downloaded is {{ splunk_file }}"
 
 - ansible.builtin.debug:
-    msg: "The upgrade file will be downloaded to {{ splunk_package_path }}/{{ splunk_file }}"
+    msg: "The upgrade file will be downloaded to {{ splunk_package_file_path }}"
 
 - name: "Download Splunk {{ splunk_install_type }} package"
   become: "{{ splunk_download_local | ternary(false, true) }}"  # true == false; false == true
   ansible.builtin.get_url:
     url: "{{ splunk_package_url }}"
-    dest: "{{ splunk_package_path }}/{{ splunk_file }}"
+    dest: "{{ splunk_package_file_path }}"
   delegate_to: "{{ splunk_download_local | ternary('localhost', omit) }}"
   register: download_result
   retries: 3
@@ -22,7 +29,7 @@
 
 - name: "Unarchive Splunk {{ splunk_install_type }} package to {{ splunk_home }}"
   ansible.builtin.unarchive:
-    src: "{{ splunk_package_path }}/{{ splunk_file }}"
+    src: "{{ splunk_package_file_path }}"
     dest: "{{ splunk_install_path }}"
     owner: "{{ splunk_nix_user }}"
     group: "{{ splunk_nix_group }}"
@@ -31,9 +38,9 @@
   notify:
     - start splunk
 
-- name: "Remove {{ splunk_package_path }}/{{ splunk_file }} package"
-  become: true
-  ansible.builtin.file:
-    path: "{{ splunk_package_path }}/{{ splunk_file }}"
-    state: absent
-  when: not splunk_download_local
+# - name: "Remove {{ splunk_package_file_path }} package"
+#   become: true
+#   ansible.builtin.file:
+#     path: "{{ splunk_package_file_path }}"
+#     state: absent
+#   when: not splunk_download_local

@@ -1,0 +1,42 @@
+---
+- name: Download Splunk
+  hosts: all
+  become: yes
+
+  vars:
+    splunk_version: "8.2.5"
+    splunk_api_url: "https://api.splunk.com/1/login"
+    splunk_api_username: "your_splunk_api_username"
+    splunk_api_password: "your_splunk_api_password"
+
+  tasks:
+  - name: Login to Splunk API
+    uri:
+      url: "{{ splunk_api_url }}"
+      method: POST
+      body: "username={{ splunk_api_username }}&password={{ splunk_api_password }}"
+      body_format: form-urlencoded
+      return_content: yes
+    register: splunk_api_login
+
+  - name: Get Splunk download link
+    uri:
+      url: "https://api.splunk.com/1/downloads/products/universalforwarder/releases/{{ splunk_version }}"
+      method: GET
+      headers:
+        Authorization: "Bearer {{ splunk_api_login.json.sessionToken }}"
+      return_content: yes
+    register: splunk_download_link
+
+  - name: Download Splunk
+    get_url:
+      url: "{{ splunk_download_link.json.downloadLink }}"
+      dest: "/tmp/splunk-{{ splunk_version }}-linux-2.6-x86_64.rpm"
+      mode: '0644'
+    register: splunk_download
+
+  - name: Install Splunk
+    yum:
+      name: "/tmp/splunk-{{ splunk_version }}-linux-2.6-x86_64.rpm"
+      state: present
+    when: splunk_download.changed

@@ -6,3 +6,5 @@ git_server: ssh://git@github.com:Zephynyah/splunk-ansible-apps.git
 git_key: ~/.ssh/ansible
 git_project: SOMEPROJECT
 splunk_admin_password: 'Nosw3R&dAcukoqaS*SW='
+clientName: "{{ ansible_hostname }}"  # Default client name
+splunk_uri_ds: rh8-ds-1:8089 # e.g. mydeploymentserver.mydomain.com:8089 ; Note that you must also configure the clientName var under either group_vars or host_vars for deploymentclient.conf to be configured

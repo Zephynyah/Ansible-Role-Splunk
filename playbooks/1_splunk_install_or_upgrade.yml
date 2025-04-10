@@ -1,11 +1,10 @@
 ---
-# Example playbook to perform either a splunk installation or upgrade
+# Playbook to perform either a splunk installation or upgrade via the splunk role
 - name: Splunk Installation or Upgrade Playbook
   hosts: all
   serial: 100
-
   tasks:
-    - name: Installation or Upgrade Splunk
+    - name: Include Splunk role
       ansible.builtin.include_role:
         name: splunk
       vars:

@@ -1,0 +1,15 @@
+---
+# Example playbook to properly add search peers to the search head
+# https://docs.splunk.com/Documentation/Splunk/9.4.0/DistSearch/Configuredistributedsearch
+
+- name: Add search peers to the search head
+  hosts: all
+  become: true
+  any_errors_fatal: true
+  max_fail_percentage: 0
+  tasks:
+    - name: Include Splunk role
+      ansible.builtin.include_role:
+        name: splunk
+      vars:
+        deployment_task: configure_indexer_pair_non_cluster.yml

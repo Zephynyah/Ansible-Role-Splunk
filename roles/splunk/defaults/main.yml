@@ -8,8 +8,8 @@ slack_token: undefined
 splunk_home: auto_determined  # Automatically set in tasks/main.yml
 splunk_package_url: auto_determined  # Automatically set in tasks/main.yml
 splunk_package_path: ~/  # Path to store Splunk package locally
-splunk_package_version: 9.3.0  # Default Splunk version to install or update to
-build_id: 51ccf43db5bd  # Default build ID for Splunk package
+splunk_package_version: 9.3.3  # Default Splunk version to install or update to
+build_id: 75595d8f83ef #51ccf43db5bd  # Default build ID for Splunk package
 splunk_package_arch: "{{ splunk_package_version is version(9.4, '<') | ternary('Linux-x86_64', 'linux-amd64') }}"
 splunk_package_url_full: "https://download.splunk.com/products/splunk/releases/{{ splunk_package_version }}/linux/splunk-{{ splunk_package_version }}-{{ build_id }}-{{ splunk_package_arch }}.tgz"
 splunk_package_url_uf: "https://download.splunk.com/products/universalforwarder/releases/{{ splunk_package_version }}/linux/splunkforwarder-{{ splunk_package_version }}-{{ build_id }}-{{ splunk_package_arch }}.tgz"
@@ -36,9 +36,9 @@ splunk_license_group: Trial  # Default license group (Trial, Free, Enterprise, e
 splunk_uri_lm: undefined  # License manager URI
 
 # Deployment server
-splunk_uri_ds: undefined   # e.g. mydeploymentserver.mydomain.com:8089 ; Note that you must also configure the clientName var under either group_vars or host_vars for deploymentclient.conf to be configured
-clientName: undefined
-phoneHomeIntervalInSecs: undefined
+splunk_uri_ds: undefined  # e.g. mydeploymentserver.mydomain.com:8089 ; Note that you must also configure the clientName var under either group_vars or host_vars for deploymentclient.conf to be configured
+clientName: "undefined" 
+phoneHomeIntervalInSecs: undefined # A phone home interval of at least 300 seconds (5 minutes) is generally recommended, but you can set this to a lower value if needed. Default is 60 seconds (1 minutes).
 splunk_general_key: undefined  # Configures a pass4SymmKey in server.conf under the general stanza
 splunk_ds_key: undefined  # Configures a pass4SymmKey in server.conf for authenticating against a deployment server
 
@@ -62,6 +62,7 @@ splunk_mgmt_uri: "{{ ansible_fqdn }}"  # If the `ansible_fqdn` is not resolvable
 splunkd_port: 8089  # If changed, will overwrite the default port number used by splunkd
 
 # Indexer clustering (IDXC)
+splunk_idxc_enable: false
 splunk_idxc_key: mypass4symmkey
 splunk_idxc_rf: 2  # Replication factor
 splunk_idxc_sf: 2  # Search factor

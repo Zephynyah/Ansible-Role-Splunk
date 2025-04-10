@@ -2,7 +2,6 @@
 # Example playbook to perform splunk uninstallation
 - name: Remove Splunk Installation Playbook
   hosts: all
-  gather_facts: false
   become: true
   become_method: sudo
   ignore_errors: true

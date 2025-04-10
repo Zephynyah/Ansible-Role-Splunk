@@ -1,0 +1,42 @@
+---
+- block:
+    - name: Ensure Splunk is running on the search head
+      ansible.builtin.command: "{{ splunk_home }}/bin/splunk start"
+      become: true
+      when: "'search' in group_names"
+
+    - name: Check remote Splunk instance is running
+      ansible.builtin.uri:
+        url: "https://{{ ansible_host }}:{{ splunkd_port }}"
+        method: GET
+        validate_certs: false
+        use_proxy: no
+      register: task_response
+      until:
+        - task_response.status == 200
+      retries: 3
+      delay: 30
+      ignore_errors: true
+      when: "'search' in group_names"
+
+    - name: Add non-clustered indexers as search peers to the search head
+      ansible.builtin.command: >
+        {{ splunk_home }}/bin/splunk add search-server
+        https://{{ item }}:{{ splunkd_port }}
+        -auth {{ splunk_admin_username }}:{{ splunk_admin_password }}
+        -remoteUsername {{ splunk_admin_username }}
+        -remotePassword {{ splunk_admin_password }}
+      with_items: "{{ groups['indexer'] }}"
+      become: true
+      when: "'search' in group_names"
+
+    - name: Restart Splunk on the search head to apply configuration
+      ansible.builtin.service:
+        name: "{{ systemd_unit_full }}"
+        state: restarted
+      become: true
+      when: "'search' in group_names"
+  when:
+    - groups['indexer'] | length > 0
+    - splunk_admin_username is defined
+    - splunk_admin_password is defined
