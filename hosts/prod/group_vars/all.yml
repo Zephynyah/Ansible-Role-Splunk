@@ -1,11 +1,67 @@
 ---
-controller_packages_dir: ../rootCA
-splunk_uri_lm: https://rh8-ds-1:8089
+#-----------------------------------
+# Ansible variables for all hosts
+#-----------------------------------
 ansible_user: root
 ansible_ssh_private_key_file: ~/.ssh/id_ed25519
+
+#-----------------------------------
+# Github variables for all hosts
+#-----------------------------------
 git_server: ssh://git@github.com:Zephynyah/splunk-ansible-apps.git
 git_key: ~/.ssh/ansible
 git_project: SOMEPROJECT
+git_branch: main
+git_path: /opt/splunk/etc/apps
+git_repo: "{{ git_server }}{{ git_project }}"
+git_repo_path: "{{ git_path }}/{{ git_project }}"
+
+#-----------------------------------
+# Splunk variables for all hosts
+#-----------------------------------
+# Splunk server URI for license master
+# This is the server that will be used to manage licenses
+# This should be the same as the splunk_uri_lm variable
+# If you are using a different server for the license master, change this variable accordingly
+splunk_uri_lm: https://rh8-ds-1:8089
+
+# Splunk server URI for deployment server
+# This is the server that will be used to deploy apps and configurations to other Splunk servers
+# This should be the same as the splunk_uri_lm variable
+# If you are using a different server for the deployment server, change this variable accordingly
+splunk_uri_ds: rh8-ds-1:8089
+
+# Splunk admin password
+# This is the password used to authenticate to the Splunk server
+# This password should be kept secret and not shared with anyone
 splunk_admin_password: 'Nosw3R&dAcukoqaS*SW='
-clientName: "{{ ansible_hostname }}"  # Default client name
-splunk_uri_ds: rh8-ds-1:8089 # e.g. mydeploymentserver.mydomain.com:8089 ; Note that you must also configure the clientName var under either group_vars or host_vars for deploymentclient.conf to be configured
+
+# Splunk server URI for search head
+# This is the server that will be used to search data
+# This should be the same as the splunk_uri_lm variable
+# If you are using a different server for the search head, change this variable accordingly
+splunk_uri_sh: https://rh8-sh-1:8089
+
+# Splunk server or forwarder name clientName
+# This is the name of the Splunk server or forwarder
+# This name should be unique and not shared with any other Splunk server or forwarder
+# This name is used to identify the server or forwarder in the Splunk web interface
+# If you are using a different name for the server or forwarder, change this variable accordingly
+# The default is the hostname of the server
+clientName: "{{ ansible_hostname }}" 
+
+#-----------------------
+# Splunk CA variables
+#------------------------
+# Splunk CA Root directory
+# This is where the root CA certificate and private key will be stored
+# This directory should be secured and not accessible to unauthorized users
+# The default is /opt/splunk/etc/auth/splunkca
+# You can change this to a different directory if needed
+# splunkca_root_directory: "/opt/splunk/etc/auth/splunkca"
+splunkca_directory: "{{ playbook_dir | dirname }}/rootCA"
+
+# Splunk CA root passphrase
+# This is the passphrase used to encrypt the root CA private key
+# This passphrase should be kept secret and not shared with anyone
+splunkca_passphrase: "b@2&T5GA=T66uNLn?4ic"

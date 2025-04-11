@@ -1,0 +1,29 @@
+---
+# Example playbook to properly configure SSL for Splunk
+# https://docs.splunk.com/Documentation/Splunk/9.4.0/DistSearch/Configuredistributedsearch
+
+- name: Configure SSL for Splunk
+  hosts: full
+  become: true
+  any_errors_fatal: true
+  max_fail_percentage: 0
+
+  vars:
+    splunk_home: "/opt/splunk"
+    splunk_nix_user: "splunk"
+    splunk_nix_group: "splunk"
+    ssl_cert_dir: "custom_certs"
+    ssl_cert_path: "/path/to/your/certificate.crt"
+    ssl_key_path: "/path/to/your/private.key"
+    ssl_cert_name: "server.crt"
+    ssl_key_name: "server.key"
+    ssl_password: "b@2&T5GA=T66uNLn?4ic"
+    ca_root_passphrase: "b@2&T5GA=T66uNLn?4ic"
+    systemd_unit_full: "Splunkd"
+
+  tasks:
+    - name: Include Splunk CA role
+      ansible.builtin.include_role:
+        name: splunk_ca
+      vars:
+        splunk_ca_task: create_server_certificates.yml

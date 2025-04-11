@@ -1,0 +1,89 @@
+---
+- name: Setting host facts using complex arguments
+  ansible.builtin.set_fact:
+    server_hostname: "{{ ansible_hostname }}"
+    server_ip: "{{ ansible_default_ipv4.address }}"
+    server_fqdn: "{{ ansible_fqdn }}" 
+    server_domain: "{{ ansible_domain }}"
+    server_certificate: "{{ ca_root_dir }}/{{ ansible_hostname }}.server.pem"
+    server_privatekey: "{{ ca_root_dir }}/{{ ansible_hostname }}.server.key"
+
+- name: Create private key for new certificate on localhost
+  community.crypto.openssl_privatekey:
+    path: "{{ server_privatekey }}"
+  delegate_to: localhost
+
+- name: Create certificate signing request (CSR) for new certificate
+  community.crypto.openssl_csr_pipe:
+    privatekey_path: "{{ server_privatekey }}"
+    country_name: "US"
+    state_or_province_name: "California"
+    locality_name: "San Francisco"
+    organization_name: "My Company"
+    organizational_unit_name: "IT"
+    common_name: "{{ server_hostname }}"
+    email_address: "admin@{{ server_domain }}"
+    subject:
+      - "C=US"
+      - "ST=California"
+      - "L=San Francisco"
+      - "O=My Company"
+      - "OU=IT"
+      - "CN={{ server_hostname }}"
+      - "emailAddress=admin@{{ server_domain }}"
+    subject_alt_name:
+      - "DNS:{{ server_hostname }}"
+      - "DNS:{{ server_fqdn }}"
+      - "DNS:{{ server_domain }}"
+      - "IP:{{ server_ip }}"
+    # common_name: "{{ server_hostname }}"
+  delegate_to: localhost
+  register: csr
+
+- name: Check whether certificate exists
+  stat:
+    path: "{{ server_certificate }}"
+  delegate_to: localhost
+  register: certificate_exists
+
+- name: Read existing certificate if exists
+  slurp:
+    src: "{{ server_certificate }}"
+  when: certificate_exists.stat.exists
+  delegate_to: localhost
+  register: certificate
+
+- name: Sign certificate with our CA
+  community.crypto.x509_certificate_pipe:
+    content: "{{ (certificate.content | b64decode) if certificate_exists.stat.exists else omit }}"
+    csr_content: "{{ csr.csr }}"
+    provider: ownca
+    ownca_path: "{{ ca_root_certificate }}"
+    ownca_privatekey_path: "{{ ca_root_privatekey }}"
+    ownca_privatekey_passphrase: "{{ ca_root_passphrase }}"
+    ownca_not_after: +3650d  # valid for 10 years
+    ownca_not_before: "-1d"  # valid since yesterday
+  delegate_to: localhost
+  register: certificate
+  when: 
+    - ca_root_certificate is defined
+    - ca_root_privatekey is defined
+    - ca_root_passphrase is defined
+
+- name: Write certificate file on localhost
+  copy:
+    dest: "{{ server_certificate }}"
+    mode: '0644'
+    content: "{{ certificate.certificate }}"
+  delegate_to: localhost
+  when: certificate is changed
+
+# - name: Remove passphrase from private key
+#   ansible.builtin.command: >
+#     openssl rsa -in {{ server_privatekey }}
+#     -out {{ server_privatekey |regex_replace('.key$', '_nopass.key') }}
+#     -passin pass:{{ ca_root_passphrase }}
+#   args:
+#     creates: "{{ server_privatekey |regex_replace('.key$', '_nopass.key') }}"
+#   delegate_to: localhost
+#   register: remove_passphrase_result

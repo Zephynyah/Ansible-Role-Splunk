@@ -5,64 +5,20 @@
 
   vars:
     splunk_version: "9.4.0"
-    splunk_arch: "linux-2.6-x86_64"
-    splunk_package_name: "splunk-{{ splunk_version }}-{{ splunk_arch }}.rpm"
-    splunk_download_url: "https://download.splunk.com/products/universalforwarder/releases/{{ splunk_version }}/{{ splunk_package_name }}"
-    splunk_package_path: "/tmp/{{ splunk_package_name }}"
 
   tasks:
     - name: Check if Splunk package already exists
       ansible.builtin.stat:
-        path: "{{ splunk_package_path }}"
+        path: "{{ lookup('env', 'PWD') }}"
       register: splunk_package_status
 
-    - name: Download Splunk package if not present
+    - name: Download Splunk package
       ansible.builtin.get_url:
-        url: "{{ splunk_download_url }}"
-        dest: "{{ splunk_package_path }}"
-        mode: '0644'
+        url: "https://www.splunk.com/page/download_track?file={{ splunk_version }}&ac=default&name=dl&platform=linux&architecture=x86_64&version={{ splunk_version }}&product=splunk&typed=release"
+        dest: "/tmp/splunk-{{ splunk_version }}.tgz"
       when: not splunk_package_status.stat.exists
+      register: download_status
+      delegate_to: localhost
+      run_once: true
 
-    - name: Install Splunk
-      ansible.builtin.yum:
-        name: "{{ splunk_package_path }}"
-        state: present
-      when: splunk_package_status.stat.exists or splunk_package_status.stat.isreg
 
-    - name: Debug message for successful installation
-      ansible.builtin.debug:
-        msg: "Splunk version {{ splunk_version }} has been successfully installed."
-
-# splunkforwarder-9.3.3-75595d8f83ef-Linux-x86_64.tgz
-# ---
-# - name: Download Splunk
-#   hosts: all
-#   become: yes
-
-#   vars:
-#     splunk_version: "9.4.0"
-
-#   tasks:
-#   - name: Get Splunk download link
-#     uri:
-#       url: "https://www.splunk.com/en_us/download/splunk.html"
-#       method: GET
-#       return_content: yes
-#     register: splunk_download_page
-
-#   - name: Extract download link
-#     set_fact:
-#       splunk_download_link: "{{ splunk_download_page.content | regex_search('https://download.splunk.com/products/universalforwarder/releases/\\d+\\.\\d+\\.\\d+/splunk-\\d+\\.\\d+\\.\\d+-[a-f0-9]+-linux-2\\.6-x86_64\\.rpm') | regex_replace('https://download.splunk.com/products/universalforwarder/releases/\\d+\\.\\d+\\.\\d+/splunk-\\d+\\.\\d+\\.\\d+-[a-f0-9]+-linux-2\\.6-x86_64\\.rpm', 'https://download.splunk.com/products/universalforwarder/releases/{{ splunk_version }}/splunk-{{ splunk_version }}-[a-f0-9]+-linux-2.6-x86_64.rpm') }}"
-
-#   - name: Download Splunk
-#     get_url:
-#       url: "{{ splunk_download_link }}"
-#       dest: "/tmp/splunk-{{ splunk_version }}-linux-2.6-x86_64.rpm"
-#       mode: '0644'
-#     register: splunk_download
-
-#   - name: Install Splunk
-#     yum:
-#       name: "/tmp/splunk-{{ splunk_version }}-linux-2.6-x86_64.rpm"
-#       state: present
-#     when: splunk_download.changed

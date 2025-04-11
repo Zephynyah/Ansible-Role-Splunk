@@ -7,6 +7,13 @@
 ansible-galaxy init splunk
 ```
 
+## References
+```sh
+https://github.com/shelleg/ansible-role-ca/blob/master/tasks/distribute_keys.yml
+
+https://docs.ansible.com/ansible/latest/collections/community/crypto/docsite/guide_ownca.html
+```
+
 ## Intall collections form command line to playbook collections folder
 
 ```sh

@@ -28,5 +28,6 @@ all:
 
     uf:
       children:
-        web:
+        ansible:
           hosts:
+            rh8-ansible-2:
