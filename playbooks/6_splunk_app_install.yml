@@ -1,0 +1,19 @@
+---
+# Example playbook to install/upgrade apps on a Splunk host
+# For details on configuring as a deployment server, see 
+# $SPLUNK_HOME/etc/system/README/serverclass.conf.spec, serverclass.conf.example or the Admin manual 
+# at http://docs.splunk.com/Documentation.
+
+- name: Deploy Splunk Apps
+  hosts: all
+  become: true
+  any_errors_fatal: true
+  max_fail_percentage: 0
+  serial: 50
+
+  tasks:
+    - name: Include Splunk role with deployment task
+      ansible.builtin.include_role:
+        name: splunk
+      vars:
+        deployment_task: configure_apps.yml

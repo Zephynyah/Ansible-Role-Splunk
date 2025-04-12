@@ -1,5 +1,5 @@
 ---
-# Example playbook to properly upgrade a single-site indexer and search head using the splunk role from ansible-role-splunk
+# Playbook to properly upgrade a single-site indexer and search head using the splunk role from ansible-role-splunk
 - hosts: deploymentserver
   become: true
   any_errors_fatal: true

@@ -1,24 +1,22 @@
 ---
+# For details on configuring as a deployment server, see 
+# $SPLUNK_HOME/etc/system/README/serverclass.conf.spec, serverclass.conf.example or the Admin manual 
+# at http://docs.splunk.com/Documentation.
+
 - name: Download and Install Splunk
-  hosts: all
+  hosts: localhost
   become: yes
 
   vars:
     splunk_version: "9.4.0"
 
   tasks:
-    - name: Check if Splunk package already exists
-      ansible.builtin.stat:
-        path: "{{ lookup('env', 'PWD') }}"
-      register: splunk_package_status
-
-    - name: Download Splunk package
-      ansible.builtin.get_url:
-        url: "https://www.splunk.com/page/download_track?file={{ splunk_version }}&ac=default&name=dl&platform=linux&architecture=x86_64&version={{ splunk_version }}&product=splunk&typed=release"
-        dest: "/tmp/splunk-{{ splunk_version }}.tgz"
-      when: not splunk_package_status.stat.exists
-      register: download_status
+    - name: Git checkout
+      ansible.builtin.git:
+        repo: 'https://github.com/ansible/ansible.git'
+        dest: /tmp/checkout
+        version: v2.18.4
       delegate_to: localhost
-      run_once: true
+
 
 

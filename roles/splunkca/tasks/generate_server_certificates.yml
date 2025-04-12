@@ -1,0 +1,95 @@
+---
+# tasks file for splunk_ca
+# This file is part of the Ansible role for Splunk CA management.
+# It is used to generate server certificates for Splunk instances.
+# The tasks are designed to be idempotent and can be run multiple times without side effects.
+# The tasks include creating a directory for the server files, generating a private key, creating a CSR, and signing the certificate.
+# The tasks are executed on the localhost to ensure that the server certificate and key are generated in a controlled environment.
+
+- name: Create private key for new certificate on localhost
+  community.crypto.openssl_privatekey:
+    path: "{{ server_privatekey_path }}"
+  delegate_to: localhost
+
+- name: 'Pipe | Create certificate signing request (CSR) for new certificate'
+  delegate_to: localhost
+  community.crypto.openssl_csr_pipe:
+    privatekey_path: "{{ server_privatekey_path }}"
+    country_name: "{{ splunkca_country | default('USA') }}"
+    state_or_province_name: "{{ splunkca_state | default('Connecticut') }}"
+    locality_name: "{{ splunkca_locality | default('East Hartford') }}"
+    organization_name: "{{ splunkca_organization | default('Collateral Splunk CA') }}"
+    organizational_unit_name: "{{ splunkca_organizationalunit | default('Cyber') }}"
+    common_name: "{{ splunkca_commonname | default(ansible_hostname) }}"
+    email_address: "{{ splunkca_email }}"
+    subject_alt_name:
+      - "DNS:{{ server_hostname }}"
+      - "DNS:{{ server_fqdn }}"
+      - "DNS:{{ server_domain }}"
+      - "IP:{{ server_ip }}"
+  register: csr
+  when: not splunkca_generate_csr | default(false)
+
+- name: 'File | Create certificate signing request (CSR) for new certificate'
+  delegate_to: localhost
+  community.crypto.openssl_csr:
+    path: "{{ server_csr_path }}"
+    privatekey_path: "{{ server_privatekey_path }}"
+    country_name: "{{ splunkca_country | default('USA') }}"
+    state_or_province_name: "{{ splunkca_state | default('Connecticut') }}"
+    locality_name: "{{ splunkca_locality | default('East Hartford') }}"
+    organization_name: "{{ splunkca_organization | default('Collateral Splunk CA') }}"
+    organizational_unit_name: "{{ splunkca_organizationalunit | default('Cyber') }}"
+    common_name: "{{ splunkca_commonname | default(ansible_hostname) }}"
+    email_address: "{{ splunkca_email }}"
+    subject_alt_name:
+      - "DNS:{{ server_hostname }}"
+      - "DNS:{{ server_fqdn }}"
+      - "DNS:{{ server_domain }}"
+      - "IP:{{ server_ip }}"
+  
+  when: splunkca_generate_csr == true
+
+- name: Check whether certificate exists
+  stat:
+    path: "{{ server_certificate_path }}"
+  delegate_to: localhost
+  register: certificate_exists
+
+- name: Read existing certificate if exists
+  slurp:
+    src: "{{ server_certificate_path }}"
+  when: certificate_exists.stat.exists
+  delegate_to: localhost
+  register: certificate
+
+- name: Sign certificate with our CA
+  community.crypto.x509_certificate_pipe:
+    content: "{{ (certificate.content | b64decode) if certificate_exists.stat.exists else omit }}"
+    csr_content: "{{ csr.csr if not splunkca_generate_csr else omit  }}"
+    csr_path: "{{ server_csr_path if splunkca_generate_csr else omit  }}"
+    provider: ownca
+    ownca_path: "{{ splunkca_certificate_path }}"
+    ownca_privatekey_path: "{{ splunkca_privatekey_path }}"
+    ownca_privatekey_passphrase: "{{ splunkca_passphrase }}"
+    ownca_not_after: +3650d  # valid for 10 years
+    ownca_not_before: "-1d"  # valid since yesterday
+  delegate_to: localhost
+  register: certificate
+
+- name: Write certificate file on localhost
+  copy:
+    dest: "{{ server_certificate_path }}"
+    mode: '0644'
+    content: "{{ certificate.certificate }}"
+  delegate_to: localhost
+  when: certificate is changed
+
+- name: Remove old CSR files if using pipe
+  ansible.builtin.file:
+    path: "{{ server_csr_path }}"
+    state: absent
+  delegate_to: localhost
+  when: not splunkca_generate_csr | default(false)
+  failed_when: false
+  changed_when: false

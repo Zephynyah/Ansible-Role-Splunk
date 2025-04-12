@@ -1,0 +1,46 @@
+---
+# defaults file for splunkca
+# ca_force_create & ca_force_certify_nodes are designed to prevent overiding of existing certificates !
+# splunkca_directory: "{{ playbook_dir | dirname }}/rootCA"
+splunkca_directory: "/etc/splunk"
+
+# where to generate the ownca certs
+splunkca_ownca_dir: "{{ splunkca_directory }}/ca"
+
+# where to generate the server certs
+splunkca_certs_dir: "{{ splunkca_directory }}/certs"
+
+# The password for the private key`
+# this is the password that will be used to encrypt the private key
+splunkca_passphrase: ""
+
+# The certificate authority (CA) certificate
+# this is the certificate that will be used to sign the server certificates
+splunkca_certificate: 'ownca.pem'
+
+# The private key for the CA certificate
+# this is the private key that will be used to sign the server certificates
+splunkca_privatekey: 'ownca.key'
+
+# The certificate authority (CA) certificate path
+# this is the path of the server certificate
+splunkca_certificate_path: "{{ splunkca_ownca_dir }}/{{ splunkca_certificate }}"
+
+# The private key for the CA certificate path
+# this is the path of the server private key
+splunkca_privatekey_path: "{{ splunkca_ownca_dir }}/{{ splunkca_privatekey }}"
+
+# Anchors directory for the CA certs
+# this is where the CA certificate will be copied on the server
+# this is the directory that will be used by the OS to trust the certs
+splunkca_server_anchors_dir: /etc/pki/ca-trust/source/anchors/
+
+# The CSR certificates information
+splunkca_generate_csr: false # if true, a CSR file will be generated to be signe Certificate Authority
+# this is the information that will be used to generate the CSR
+splunkca_country: US # 2 letter country code
+splunkca_state: Connecticut # state or province name
+splunkca_locality: East Hartford # city or locality name
+splunkca_organization: "Collateral Splunk CA" # organization name
+splunkca_organizationalunit: "Cyber Security" # organizational unit name
+splunkca_email: "ca-admin@mail.com" # email address

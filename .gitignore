@@ -1,6 +1,32 @@
+# Exclude directories and files that are not needed in the repository
 hosts/test
 hosts/stage
-roles/splunk/files/*.lic
-logs
 facts.d
+backups
 rootCA
+
+# Exclude all .DS_Store files
+.DS_Store
+# Exclude all .vscode directories
+.vscode/
+# Exclude all .idea directories
+.idea/
+# Exclude all .lic files
+*.lic
+# Exclude all .log files
+*.log
+# Exclude all .pem files
+*.pem
+# Exclude all .p12 files
+*.p12
+# Exclude all .pfx files
+*.pfx
+# Exclude all .key files
+*.key
+# Exclude all .crt files
+*.crt
+# Exclude all .csr files
+*.csr
+
+# Exclude yamllint cache (if applicable)
+.yamllint

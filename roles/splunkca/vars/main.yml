@@ -1,0 +1,8 @@
+---
+# vars file for splunk_ca
+splunk_home: "/opt/splunk"
+splunk_nix_user: "splunk"
+splunk_nix_group: "splunk"
+splunk_webcerts_dir: "webcerts"
+splunk_http_port: "8443"
+systemd_unit_full: "Splunkd"

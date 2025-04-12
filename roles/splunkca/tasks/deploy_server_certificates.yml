@@ -1,0 +1,65 @@
+---
+- name: Configure SSL for Splunk Instances
+  block:
+    - name: Ensure the SSL certificate directory exists
+      ansible.builtin.file:
+        path: "{{ splunk_home }}/etc/auth/{{ splunk_webcerts_dir }}"
+        state: directory
+        owner: "{{ splunk_nix_user }}"
+        group: "{{ splunk_nix_group }}"
+        mode: '0755'
+
+    - name: Verify server certificate exists
+      ansible.builtin.stat:
+        path: "{{ server_certificate_path }}"
+      register: server_certificate_status
+      delegate_to: localhost
+
+    - name: Fail if server certificate is missing
+      ansible.builtin.fail:
+        msg: "Server certificate not found at {{ server_certificate_path }}."
+      when: not server_certificate_status.stat.exists
+
+    - name: Verify server private key exists
+      ansible.builtin.stat:
+        path: "{{ server_privatekey_path }}"
+      register: server_privatekey_status
+      delegate_to: localhost
+
+    - name: Fail if server private key is missing
+      ansible.builtin.fail:
+        msg: "Server private key not found at {{ server_privatekey_path }}."
+      when: not server_privatekey_status.stat.exists
+
+    - name: Update Splunk Web configuration for SSL
+      ansible.builtin.ini_file:
+        path: "{{ splunk_home }}/etc/system/local/web.conf"
+        section: "settings"
+        option: "{{ item.option }}"
+        value: "{{ item.value }}"
+        state: present
+      with_items:
+        - { option: "enableSplunkWebSSL", value: 1 }
+        - { option: "httpport", value: "{{ splunk_http_port }}" }
+        - { option: "serverCert", value: "etc/auth/{{ splunk_webcerts_dir }}/{{ server_certificate }}" }
+        - { option: "privKeyPath", value: "etc/auth/{{ splunk_webcerts_dir }}/{{ server_privatekey }}" }
+      become: true
+    
+    - name: Copy the server certificates to the Splunk directory
+      ansible.builtin.copy:
+        dest: "{{ splunk_home }}/etc/auth/{{ splunk_webcerts_dir }}/{{ item }}"
+        src: "{{ item }}"
+        mode: '0644'
+      with_items:
+        - "{{ server_certificate }}"
+        - "{{ server_privatekey }}"
+
+    - name: Restart Splunk to apply SSL configuration
+      ansible.builtin.service:
+        name: "{{ systemd_unit_full }}"
+        state: restarted
+      become: true
+  when:
+    - server_certificate_path is defined
+    - server_privatekey_path is defined
+    - splunk_webcerts_dir is defined

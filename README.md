@@ -1,11 +1,11 @@
 # An Ansible role for Splunk admins (splunk-ansible-role)
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)&nbsp;
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![GitHub release](https://img.shields.io/github/v/tag/Zephynyah/zeph-splunk-ansible?sort=semver&label=Version)](https://github.com/Zephynyah/zeph-splunk-ansible/releases)
 
-This repository contains Splunk's official Ansible role for performing Splunk administration of remote hosts over SSH. This role can manage Splunk Enterprise and Universal Forwarders that are on Linux-based platforms (CentOS/Redhat/Ubuntu/Amazon Linux/OpenSUSE), as well as deploy configurations from Git repositories. Example playbooks and inventory files are also provided to help new Ansible users make the most out of this project.
+This repository contains an Ansible role for performing Splunk administration of remote hosts over SSH. This role can manage Splunk Enterprise and Universal Forwarders that are on Linux-based platforms (CentOS/Redhat), as well as deploy configurations from Git repositories. Example playbooks and inventory files are also provided to help new Ansible users make the most out of this project.
 
-ansible-role-for-splunk is used by the Splunk@Splunk team to manage Splunk's corporate deployment of Splunk.
+`ansible-role-splunk` best suited for teams to manage large deployment of Splunk.
 
 ----
 
@@ -16,28 +16,27 @@ ansible-role-for-splunk is used by the Splunk@Splunk team to manage Splunk's cor
 1. [Extended Documentation](#extended-documentation)
 1. [Frequently Asked Questions](#frequently-asked-questions)
 1. [Support](#support)
-1. [License](#license)
+1. [Setup](#license)
 
 ----
 
 ## Purpose
 
-#### What is ansible-role-for-splunk?
-ansible-role-for-splunk is a single Ansible role for deploying and administering production Splunk deployments. It supports all Splunk deployment roles (Universal Forwarder, Heavy Forwarder, Indexer, Search Head, Deployment Server, Cluster Master, SHC Deployer, DMC, License Master) as well as management of all apps and configurations (via git repositories).
+#### What is ansible-role-splunk?
+ansible-role-splunk is a single Ansible role for deploying and administering production Splunk deployments. This version supports Splunk deployment roles (Universal Forwarder, Indexer, Search Head, Deployment Server, License Master) as well as management of all apps and configurations (via git repositories).
 
-This codebase is used by the Splunk@Splunk team internally to manage our deployment, so it has been thoroughly vetted since it was first developed in late 2018. For more information about Ansible best practices, checkout [our related .conf20 session](https://conf.splunk.com/learn/session-catalog.html?search=TRU1537C) for this project.
+This codebase is a `fork` from `ansible-role-for-splunk` used by the Splunk@Splunk team internally to manage our deployment. For more information about Ansible best practices, checkout [our related .conf20 session](https://conf.splunk.com/learn/session-catalog.html?search=TRU1537C) for this project.
 
 #### Design Philosophy
 A few different design philosophies have been applied in the development of this project.
 
-First, ansible-role-for-splunk was designed under the "Don't Repeat Yourself (DRY)" philosophy. This means that the project contains minimal code redundancy. If you want to fork this project and change any functionality, you only need to update the code in one place.
+`"Don't Repeat Yourself (DRY)" philosophy`: This means that the project contains minimal code redundancy. If you want to fork this project and change any functionality, you only need to update the code in one place.
 
-Second, ansible-role-for-splunk was designed to be idempotent. This means that if the system is already in the desired state that Ansible expects, it will not make any changes. This even applies to our app management code, which can update apps on search heads without modifying  existing local/ files that may have been created through actions in Splunk Web. For example, if you want to upgrade an app on a search head, and your repository does not contain a local/ folder, Ansible will not touch the existing local/ folder on the search head. This is accomplished using the synchronize module. For more information on that, refer to the `configure_apps.yml` task description.
+`Idempotent`: This means that if the system is already in the desired state that Ansible expects, it will not make any changes. This even applies to our app management code, which can update apps on search heads without modifying  existing local/ files that may have been created through actions in Splunk Web. For example, if you want to upgrade an app on a search head, and your repository does not contain a local/ folder, Ansible will not touch the existing local/ folder on the search head. This is accomplished using the synchronize module. For more information on that, refer to the `configure_apps.yml` task description.
 
-Third, ansible-role-for-splunk was designed to manage all Splunk configurations as code. What do I mean by that? You're not going to find tasks for installing web certificates, templating indexes.conf, or managing every Splunk configuration possible. Instead, you will find that we have a generic configure_apps.yml task which can deploy any version of any git repository to any path under $SPLUNK_HOME on the hosts in your inventory. We believe that having all configurations in git repositories is the best way to perform version control and configuration management for Splunk deployments. That said, we've made a handful of exceptions:
+`Manage all Splunk configurations as code`:. What do I mean by that? You're not going to find tasks for installing web certificates, templating indexes.conf, or managing every Splunk configuration possible. Instead, you will find that we have a generic configure_apps.yml task which can deploy any version of any git repository to any path under $SPLUNK_HOME on the hosts in your inventory. We believe that having all configurations in git repositories is the best way to perform version control and configuration management for Splunk deployments. That said, we've made a handful of exceptions:
 1. Creation of the local splunk admin user. We are able to do this securely using ansible-vault to encrypt `splunk_admin_password` so that we can create a `user-seed.conf` during the initial installation. Please note that if you do not configure the `splunk_admin_password` variable with a new value, an admin account will not be created when deploying a new Splunk installation via `check_splunk.yml`.
-1. Configuring deploymentclient.conf for Deployment Server (DS) clients. We realize that some environments may have hundreds of clientNames configured and that creating a git repository for each variation would be pretty inefficient. Therefore, we support configuring deploymentclient.conf for your Ansible-managed forwarders using variables. The current version is based on a single template that supports only the clientName and targetUri keys. However, this can be easily extended with additional variables (or static content) of your choosing.
-1. Deployment of a new search head cluster. In order to initialize a new search head cluster, we cannot rely solely on creating backend files. Therefore, the role supports deploy a new search head cluster using provided variable values that are stored in your Ansible configurations (preferably via group_vars, although host_vars or inventory variables will also work).
+2. Configuring `deploymentclient.conf` for Deployment Server (DS) clients. We realize that some environments may have hundreds of clientNames configured and that creating a git repository for each variation would be pretty inefficient. Therefore, we support configuring `deploymentclient.conf` for your Ansible-managed forwarders using variables. The current version is based on a single template that supports only the `clientName` and `targetUri` keys. However, this can be easily extended with additional variables (or static content) of your choosing.
 
 ## Getting Started
 Getting started with this role will requires you to:
@@ -55,13 +54,10 @@ Ansible only needs to be installed on the host that you want to use to manage yo
 The layout of your inventory is critical for the tasks included in ansible-role-for-splunk to run correctly. The "role" of your host is determined by it being a member of one or more inventory groups that define its Splunk role. Ansible expects each host to be a member of one of these groups and uses that membership to determine the package that should be used, the installation path, the default deployment path for app deployments, and several other things. The following group names are currently supported:
 * full
 * uf
-* clustermanager
 * deploymentserver
 * indexer
 * licensemaster
 * search
-* shdeployer
-* dmc
 
 Note that in Ansible you may nest groups within groups, and groups within those groups, and so on. We depend on this heavily to differentiate a full Splunk installation vs a Universal Forwarder (UF) installation, and to map variables in group_vars to specific groups of hosts. You will see examples of this within the sample `inventory.yml` files that are included in the "environments" folder of this project.
 
@@ -74,13 +70,14 @@ There are a few variables that need to configure out of the box to use this role
 
 ```
 splunk_uri_lm - The URI for your license master (e.g. https://my_license_master:8089)
-ansible_user - The username that you want Ansible to connect as for SSH access
+ansible_user - The username that you want Ansible to connect as for SSH access (root, admin, m123456se)
+
+# key_file or password (ansible_password, ansible_ssh_pass, ansible_ssh_password )
 ansible_ssh_private_key_file - The file path to the private key that the Ansible user should use for SSH access authentication
+ansible_ssh_pass - This is the authentication password for the remote_user. Can be supplied as CLI option.
 ```
 
-In addition, you may want to configure some of the optional variables that are mentioned in [roles/splunk/defaults/main.yml](https://github.com/splunk/ansible-role-for-splunk/blob/master/roles/splunk/defaults/main.yml) to manage things like splunk.secret, send Slack notifications, automatically install useful scripts or additional Linux packages, etc. For a full description of the configurable variables, refer to the comments in [roles/splunk/defaults/main.yml](https://github.com/splunk/ansible-role-for-splunk/blob/master/roles/splunk/defaults/main.yml) and be sure to read-up on the task descriptions in this README file.
-
-As of the v1.0.4 release for this role, an additional variable called `target_shc_group_name` must be defined in the host_vars for each SHC Deployer host. This variable tells Ansible which group of hosts in the inventory contain the SHC members that the SHC Deployer host is managing. This change improves the app deployment process for SHCs by performing a REST call to the first SH in the list from the inventory group whose name matches the value of `target_shc_group_name`. If the SHC is not in a ready state, then the play will halt and no changes will be made. It will also automatically grab the captain URI and use the captain as the deploy target for the `apply shcluster-bundle` handler. An example of how `target_shc_group_name` should be used has been included in the sample inventory at [environments/production/inventory.yml](https://github.com/splunk/ansible-role-for-splunk/blob/master/environments/production/inventory.yml).
+In addition, you may want to configure some of the optional variables that are mentioned in [roles/splunk/defaults/main.yml](https://github.com/splunk/ansible-role-for-splunk/blob/master/roles/splunk/defaults/main.yml) to manage things like splunk.secret, automatically install useful scripts or additional Linux packages, etc. For a full description of the configurable variables, refer to the comments in [roles/splunk/defaults/main.yml](https://github.com/splunk/ansible-role-for-splunk/blob/master/roles/splunk/defaults/main.yml) and be sure to read-up on the task descriptions in this README file.
 
 In order to use the app management functionality, you will need to configure the following additional variables:
 ```
@@ -93,7 +90,9 @@ git_apps:
     version: master
 ```
 You will find additional examples in the included sample [group_vars](https://github.com/splunk/ansible-role-for-splunk/blob/master/environments/production/group_vars/deploymentserver.yml) and [host_vars](https://github.com/splunk/ansible-role-for-splunk/blob/master/environments/production/host_vars/my-shc-deployer.yml) files. Note that you may also specify `git_server`, `git_key`, `git_project`, and `git_version` within `git_apps` down to the repository (`name`) level.
-You may also override the auto-configured `splunk_app_deploy_path` at the repository level as well. For example, to deploy apps to $SPLUNK_HOME/etc/apps on a deployment server rather than the default of $SPLUNK_HOME/etc/deployment-apps. If not set, configure_apps.yml will determine the app deployment path based on the host's group membership within the inventory.
+
+You may also override the auto-configured `splunk_app_deploy_path` at the repository level as well. For example, to deploy apps to `$SPLUNK_HOME/etc/apps` on a deployment server rather than the default of `$SPLUNK_HOME/etc/deployment-apps`. If not set, configure_apps.yml will determine the app deployment path based on the host's group membership within the inventory.
+
 **Tip:** If you only use one git server, you may want to define the `git_server` and related values in an all.yml group_var file.
 
 **Configure local splunk admin password at install**
@@ -105,7 +104,16 @@ splunk_admin_password: yourpassword (required, but see note below about encrypti
 **Note:** If you do not configure these 2 variables, new Splunk installations will be installed without an admin account present. This has no impact on upgrades to existing installations.
 
 **Configure splunk admin password for existing installations**
-We recommend that the `splunk_admin_username` (if not using "admin) and `splunk_admin_password` variables be configured in either group_vars or host_vars. If you use the same username and/or password across your deployment, then an `all.yml` group_vars file is a great location. If you have different passwords for different hosts, then place these variables in a corresponding group_vars or host_vars file. You can then encrypt the password to use in-line with other unencrypted variables by using the following command: `ansible-vault encrypt_string --ask-vault-pass 'var_value_to_encrypt' --name 'splunk_admin_password'`. Once that is done, use either the `--ask-vault-pass` or `--vault-password-file` argument when running the playbook to have Ansible automatically decrypt the value for the play to use.
+We recommend that the `splunk_admin_username` (if not using "admin") and `splunk_admin_password` variables be configured in either `group_vars` or `host_vars`. 
+
+- If you use the same username and/or password across your deployment, then the `all.yml` file in `group_vars` is a great location. 
+- If you have different passwords for different hosts, then place these variables in a corresponding `group_vars` or `host_vars` file. 
+  
+You can then encrypt the password to use in-line with other unencrypted variables by using the following command: 
+```sh
+ansible-vault encrypt_string --ask-vault-pass 'var_value_to_encrypt' --name 'splunk_admin_password'`
+```
+Once that is done, use either the `--ask-vault-pass` or `--vault-password-file` argument when running the playbook to have Ansible automatically decrypt the value for the play to use.
 
 #### Playbooks
 The following example playbooks have been included in this project for your reference:

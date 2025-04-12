@@ -1,0 +1,116 @@
+---
+# Argument specifications for the splunkca role
+argument_specs:
+  main:
+    options:
+      splunkca_directory:
+        description: "Base directory for Splunk CA operations."
+        type: string
+        default: "/etc/splunk"
+
+      splunkca_ownca_dir:
+        description: "Directory where the own CA certificates will be generated."
+        type: string
+        default: "/etc/splunk/ca"
+
+      splunkca_certs_dir:
+        description: "Directory where the server certificates will be generated."
+        type: string
+        default: "/etc/splunk/certs"
+
+      splunkca_passphrase:
+        description: "Passphrase for encrypting the private key."
+        type: string
+        default: ""
+
+      splunkca_certificate:
+        description: "Name of the certificate authority (CA) certificate."
+        type: string
+        default: "ownca.pem"
+
+      splunkca_privatekey:
+        description: "Name of the private key for the CA certificate."
+        type: string
+        default: "ownca.key"
+
+      splunkca_certificate_path:
+        description: "Path to the certificate authority (CA) certificate."
+        type: string
+        default: "/etc/splunk/ca/ownca.pem"
+
+      splunkca_privatekey_path:
+        description: "Path to the private key for the CA certificate."
+        type: string
+        default: "/etc/splunk/ca/ownca.key"
+
+      splunkca_server_anchors_dir:
+        description: "Directory where the CA certificate will be copied for OS trust."
+        type: string
+        default: "/etc/pki/ca-trust/source/anchors/"
+
+      splunkca_generate_csr:
+        description: "Whether to generate a Certificate Signing Request (CSR)."
+        type: boolean
+        default: false
+
+      splunkca_country:
+        description: "Country code for the CSR (2-letter code)."
+        type: string
+        default: "US"
+
+      splunkca_state:
+        description: "State or province name for the CSR."
+        type: string
+        default: "Connecticut"
+
+      splunkca_locality:
+        description: "City or locality name for the CSR."
+        type: string
+        default: "East Hartford"
+
+      splunkca_organization:
+        description: "Organization name for the CSR."
+        type: string
+        default: "Collateral Splunk CA"
+
+      splunkca_organizationalunit:
+        description: "Organizational unit name for the CSR."
+        type: string
+        default: "Cyber Security"
+
+      splunkca_email:
+        description: "Email address for the CSR."
+        type: string
+        default: "ca-admin@mail.com"
+
+  vars:
+    options:
+      splunk_home:
+        description: "Path to the Splunk installation directory."
+        type: string
+        default: "/opt/splunk"
+
+      splunk_nix_user:
+        description: "The user under which Splunk runs on Linux systems."
+        type: string
+        default: "splunk"
+
+      splunk_nix_group:
+        description: "The group under which Splunk runs on Linux systems."
+        type: string
+        default: "splunk"
+
+      splunk_webcerts_dir:
+        description: "Directory where Splunk web certificates are stored."
+        type: string
+        default: "webcerts"
+
+      splunk_http_port:
+        description: "Port used for Splunk Web (HTTP/HTTPS)."
+        type: string
+        default: "8443"
+
+      systemd_unit_full:
+        description: "The full name of the Splunk systemd unit."
+        type: string
+        default: "Splunkd"

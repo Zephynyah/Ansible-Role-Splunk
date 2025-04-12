@@ -1,0 +1,65 @@
+---
+- name: Validate parameters
+  ansible.builtin.assert:
+    that:
+      - splunkca_directory is defined and splunkca_directory != ""
+      - splunkca_ownca_dir is defined and splunkca_ownca_dir != ""
+      - splunkca_certs_dir is defined and splunkca_certs_dir != ""
+      - splunkca_passphrase is defined and splunkca_passphrase != ""
+      - splunkca_privatekey is defined and splunkca_privatekey != ""
+      - splunkca_certificate is defined and splunkca_certificate != ""
+      - splunkca_certificate_path is defined and splunkca_certificate_path != ""
+      - splunkca_privatekey_path is defined and splunkca_privatekey_path != ""
+      - splunk_webcerts_dir is defined and splunk_webcerts_dir != ""
+    quiet: true
+  tags:
+    - always
+
+- name: Set host facts for server certificate and private key
+  ansible.builtin.set_fact:
+    server_hostname: "{{ ansible_hostname }}"
+    server_ip: "{{ ansible_default_ipv4.address }}"
+    server_fqdn: "{{ ansible_fqdn }}"
+    server_domain: "{{ ansible_domain }}"
+    server_certificate: "{{ ansible_hostname }}.server.pem"
+    server_privatekey: "{{ ansible_hostname }}.server.key"
+    server_csr: "{{ ansible_hostname }}.server.csr"
+  tags:
+    - always
+
+- name: Set host facts for certificate and private key paths
+  ansible.builtin.set_fact:
+    server_certificate_path: "{{ splunkca_certs_dir }}/{{ server_certificate }}"
+    server_privatekey_path: "{{ splunkca_certs_dir }}/{{ server_privatekey }}"
+    server_csr_path: "{{ splunkca_certs_dir }}/{{ server_csr }}"
+  tags:
+    - always
+
+- name: Create a CA directories if it does not exist
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  delegate_to: localhost
+  with_items:
+    - "{{ splunkca_directory }}"
+    - "{{ splunkca_ownca_dir }}"
+    - "{{ splunkca_certs_dir }}"
+  run_once: true
+  changed_when: false
+  when: splunkca_directory is defined and splunkca_ownca_dir is defined and splunkca_certs_dir is defined
+
+- name: Validate splunkca_task variable
+  ansible.builtin.assert:
+    that:
+      - splunkca_task is defined and splunkca_task != ""
+    fail_msg: "The 'splunkca_task' variable must be defined and point to a valid task file."
+    quiet: true
+  tags:
+    - always
+
+- name: Include the specified task file
+  ansible.builtin.include_tasks: "{{ splunkca_task }}"
+  tags:
+    - always
+

@@ -1,0 +1,16 @@
+---
+# Example playbook to properly configure SSL for Splunk
+# https://docs.splunk.com/Documentation/Splunk/9.4.0/DistSearch/Configuredistributedsearch
+
+- name: Configure SSL for Splunk
+  hosts: full
+  become: true
+  any_errors_fatal: true
+  max_fail_percentage: 0
+
+  tasks:
+    - name: Include Splunk CA role with Splunk CA task
+      ansible.builtin.include_role:
+        name: splunkca
+      vars:
+        splunkca_task: deploy_server_certificates.yml
