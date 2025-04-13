@@ -48,18 +48,16 @@
     - name: Copy the server certificates to the Splunk directory
       ansible.builtin.copy:
         dest: "{{ splunk_home }}/etc/auth/{{ splunk_webcerts_dir }}/{{ item }}"
-        src: "{{ item }}"
-        mode: '0644'
+        src: "{{ splunkca_certs_dir }}/{{ item }}"
+        owner: "{{ splunk_nix_user }}"
+        group: "{{ splunk_nix_group }}"
       with_items:
         - "{{ server_certificate }}"
         - "{{ server_privatekey }}"
+      notify: Restart Splunk
 
-    - name: Restart Splunk to apply SSL configuration
-      ansible.builtin.service:
-        name: "{{ systemd_unit_full }}"
-        state: restarted
-      become: true
   when:
     - server_certificate_path is defined
     - server_privatekey_path is defined
     - splunk_webcerts_dir is defined
+  

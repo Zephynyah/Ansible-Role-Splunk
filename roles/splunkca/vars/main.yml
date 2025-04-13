@@ -1,8 +1,14 @@
 ---
-# vars file for splunk_ca
-splunk_home: "/opt/splunk"
-splunk_nix_user: "splunk"
-splunk_nix_group: "splunk"
-splunk_webcerts_dir: "webcerts"
-splunk_http_port: "8443"
-systemd_unit_full: "Splunkd"
+# vars file for splunkca
+# This file contains the variables that are used by the splunkca role
+# This file is used to configure the Splunk CA and server certificates
+# This file should be used to override the default variables in the defaults/main.yml file
+
+splunk_webcerts_dir: "webcerts" # the directory where the web certs are stored
+splunk_http_port: "8443" # the port that Splunk web is running on (HTTPS)
+
+# These should be the same as the one in the splunk role defaults/main.yml file
+splunk_home: "/opt/splunk" # the directory where Splunk is installed. 
+splunk_nix_user: "splunk" # the user that runs Splunk
+splunk_nix_group: "splunk" # the group that runs Splunk
+systemd_unit_full: "Splunkd" # the name of the systemd unit that runs Splunk

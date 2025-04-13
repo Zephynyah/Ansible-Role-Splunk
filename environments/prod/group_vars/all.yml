@@ -43,14 +43,6 @@ splunk_admin_password: 'Nosw3R&dAcukoqaS*SW='
 # If you are using a different server for the search head, change this variable accordingly
 splunk_uri_sh: https://rh8-sh-1:8089
 
-# Splunk server or forwarder name clientName
-# This is the name of the Splunk server or forwarder
-# This name should be unique and not shared with any other Splunk server or forwarder
-# This name is used to identify the server or forwarder in the Splunk web interface
-# If you are using a different name for the server or forwarder, change this variable accordingly
-# The default is the hostname of the server
-clientName: "{{ ansible_hostname }}" 
-
 #-----------------------
 # Splunk CA variables
 #------------------------

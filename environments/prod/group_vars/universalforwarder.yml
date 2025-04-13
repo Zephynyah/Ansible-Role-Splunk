@@ -1,4 +1,12 @@
 ---
+# Splunk server or forwarder name clientName
+# This is the name of the Splunk server or forwarder
+# This name should be unique and not shared with any other Splunk server or forwarder
+# This name is used to identify the server or forwarder in the Splunk web interface
+# If you are using a different name for the server or forwarder, change this variable accordingly
+# The default is the hostname of the server
+clientName: "{{ ansible_hostname }}" 
+
 # group_vars for universal forwarders
 splunk_uri_ds: rh8-ds-1:8089
 splunk_app_deploy_path: etc/apps  # subdirectory in splunk_home that apps from git should be installed to by Ansible

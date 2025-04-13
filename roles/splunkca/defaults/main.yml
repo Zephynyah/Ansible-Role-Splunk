@@ -1,13 +1,21 @@
 ---
 # defaults file for splunkca
-# ca_force_create & ca_force_certify_nodes are designed to prevent overiding of existing certificates !
-# splunkca_directory: "{{ playbook_dir | dirname }}/rootCA"
+
+# if true, the CA will be created even if it already exists
+splunkca_force_create_ownca: false
+
+# if true, the certs will be created even if they already exist
+splunkca_force_create_certs: false 
+
+# The directory where the CA will be created
+# this is the directory that will be used to store the CA and server files
 splunkca_directory: "/etc/splunk"
 
 # where to generate the ownca certs
 splunkca_ownca_dir: "{{ splunkca_directory }}/ca"
 
-# where to generate the server certs
+# Where to generate the server certs
+# This is the directory that will be used to store the server certs, private keys and CSR files
 splunkca_certs_dir: "{{ splunkca_directory }}/certs"
 
 # The password for the private key`

@@ -1,2 +1,9 @@
 ---
-# handlers file for splunk_ca
+# handlers file for splunkca
+
+- name: Restart Splunk to apply SSL configuration
+  ansible.builtin.service:
+    name: "{{ systemd_unit_full }}"
+    state: restarted
+  become: true
+  listen: Restart Splunk

@@ -40,7 +40,7 @@ The following variables can be configured in your playbook or inventory:
 | `splunk_nix_group`           | Path to the Splunk installation directory.                                     | `splunk`                          |
 | `systemd_unit_full`          | Path to the Splunk installation directory.                                     | `Splunkd`                         |
 | `splunk_http_port`           | Port for Splunk Web (HTTP/HTTPS).                                              | `8443`                            |
-| `splunk_webcert_dir`            | Name of directory on Splunk instances where certificates will be deployed.     | `webcerts`                        |
+| `splunk_webcert_dir`         | Name of directory on Splunk instances where certificates will be deployed.     | `webcerts`                        |
 
 
 **Tips:** 
@@ -53,7 +53,7 @@ The following example playbooks have been included in this project for your refe
 
 - **splunkca_generate_ownca.yml** - Generate the CA for the Splunk hosts using the `generate_ownca.yml` task in the splunkca role. 
 - **splunkca_generate_server_certs.yml** - Generates the server certificates for each Splunk Enterprise instances in the `full` section of the inventory using the `generate_server_certificates.yml` task in the splunkca role.
-- **splunkca_deploy_server_certs.yml** - Deploys server certificates and configures each Splunk Enterprise instances in the `full` section of the inventory using the `deploy_server_certificates.yml` task in the splunkca role. See [Configure Splunk for SSL](#Configure-Splunk-for-SSL)
+- **splunkca_deploy_server_certs.yml** - Deploys server certificates and configures each Splunk Enterprise instances in the `full` section of the inventory using the `deploy_server_certificates.yml` task in the splunkca role. See [Configure Splunk for SSL](#5-configure-splunk-for-ssl)
 
 
 ## Example Playbook
