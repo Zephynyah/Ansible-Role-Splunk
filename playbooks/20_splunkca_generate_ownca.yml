@@ -2,15 +2,15 @@
 # Example playbook to properly configure SSL for Splunk
 # https://docs.splunk.com/Documentation/Splunk/9.4.1/Security/SecureSplunkWebusingasignedcertificate
 
-- name: Configure SSL for Splunk
-  hosts: full
+
+- name: Create Splunk SSL CA
+  hosts:
+    - full
+  roles:
+    - splunkca
   become: true
+  serial: 50
   any_errors_fatal: true
   max_fail_percentage: 0
-
-  tasks:
-    - name: Include Splunk CA role
-      ansible.builtin.include_role:
-        name: splunkca
-      vars:
-        splunkca_task: generate_ownca.yml
+  vars:
+    - splunkca_task: generate_ownca.yml

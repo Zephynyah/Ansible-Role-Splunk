@@ -48,6 +48,13 @@
   become: true
   when: not start_splunk_handler_fired
 
+- name: restart indexer
+  ansible.builtin.service:
+    name: "{{ splunk_service }}"
+    state: restarted
+  become: true
+  when: "'indexer' in group_names"
+
 - name: restart redhat auditd service
   ansible.builtin.shell: |
     service auditd stop

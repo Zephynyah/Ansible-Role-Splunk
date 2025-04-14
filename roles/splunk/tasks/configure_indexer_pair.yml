@@ -1,4 +1,15 @@
 ---
+- name: Create inputs.conf for Splunk
+  ansible.builtin.template:
+    src: "indexer/inputs.conf.j2"
+    dest: "{{ splunk_home }}/etc/system/local/inputs.conf"
+    owner: "{{ splunk_nix_user }}"
+    group: "{{ splunk_nix_group }}"
+    mode: "0644"
+  become: true
+  when: "'indexer' in group_names"
+  notify: restart indexer
+
 - block:
     - name: Ensure Splunk is running on the search head
       ansible.builtin.command: "{{ splunk_home }}/bin/splunk start"
@@ -19,7 +30,13 @@
       ignore_errors: true
       when: "'search' in group_names"
 
-    - name: Add non-clustered indexers as search peers to the search head
+    - name: Get current search peers
+      ansible.builtin.command: "{{ splunk_home }}/bin/splunk list search-server -auth {{ splunk_admin_username }}:{{ splunk_admin_password }}"
+      register: current_search_peers
+      become: true
+      when: "'search' in group_names"
+
+    - name: Add indexers as search peers to the search head
       ansible.builtin.command: >
         {{ splunk_home }}/bin/splunk add search-server
         https://{{ item }}:{{ splunkd_port }}
@@ -27,16 +44,24 @@
         -remoteUsername {{ splunk_admin_username }}
         -remotePassword {{ splunk_admin_password }}
       with_items: "{{ groups['indexer'] }}"
+      when:
+        - "'search' in group_names"
+        - "'https://{}:{}'.format(item, splunkd_port) not in current_search_peers.stdout"
       become: true
-      when: "'search' in group_names"
+      register: add_search_peer_result
+      failed_when: add_search_peer_result.rc not in [0, 24]
+      changed_when: add_search_peer_result.rc == 0
+      no_log: true
 
     - name: Restart Splunk on the search head to apply configuration
       ansible.builtin.service:
         name: "{{ systemd_unit_full }}"
         state: restarted
       become: true
-      when: "'search' in group_names"
+      when: add_search_peer_result is changed
+    
   when:
     - groups['indexer'] | length > 0
     - splunk_admin_username is defined
     - splunk_admin_password is defined
+

@@ -1,5 +1,6 @@
 ---
 # group_vars for deployment server
+
 splunk_app_deploy_path: etc/deployment-apps
 git_version: master
 git_apps:

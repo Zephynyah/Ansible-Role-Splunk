@@ -1,0 +1,16 @@
+---
+# Example playbook to properly add Server Classes to Splunk deployment server
+# https://docs.splunk.com/Documentation/Splunk/9.4.1/Updating/Definedeploymentclasses
+
+- name: Add search peers to the search head
+  hosts:
+    - deploymentserver
+  roles:
+    - splunk
+  become: true
+  serial: 1
+  any_errors_fatal: true
+  max_fail_percentage: 0
+  vars:
+    - deployment_task: configure_serverclass.yml
+

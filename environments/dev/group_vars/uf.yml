@@ -1,5 +1,5 @@
 ---
-# group_vars for splunk indexers
+# group_vars for universal forwarders
 
 # Splunk server or forwarder name clientName
 # This is the name of the Splunk server or forwarder
@@ -9,3 +9,9 @@
 # The default is the hostname of the server
 clientName: "{{ ansible_hostname }}" 
 
+# Subdirectory in splunk_home that apps from git should be installed to by Ansible
+splunk_app_deploy_path: etc/apps  
+
+# Git repository for Splunk apps
+git_apps:
+  - name: config_base

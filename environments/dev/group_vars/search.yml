@@ -1,4 +1,6 @@
 ---
+# group_vars for search head
+
 # Splunk server or forwarder name clientName
 # This is the name of the Splunk server or forwarder
 # This name should be unique and not shared with any other Splunk server or forwarder
@@ -7,8 +9,3 @@
 # The default is the hostname of the server
 clientName: "{{ ansible_hostname }}" 
 
-
-splunk_firewall_ports:
-  - "{{ splunkweb_port }}"
-  - "{{ splunkapi_port }}"
-  - "{{ splunkshcrep_port }}"

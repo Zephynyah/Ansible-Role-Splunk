@@ -130,7 +130,7 @@ ansible-vault decrypt hosts/prod/group_vars/stigman/vault.yml --vault-id prod@~/
 
 # Find exact match
 ```sh
-grep -Hrnw 'stigman.offline_install' .
+grep -Hrnw 'serverclasses' .
 ```
 
 # Find and replace

@@ -198,6 +198,10 @@ If you have questions or need support, you can:
 * Post a question to [Splunk Answers](http://answers.splunk.com).
 * Join the #ansible channel on [Splunk-Usergroups Slack](https://docs.splunk.com/Documentation/Community/1.0/community/Chat#Join_us_on_Slack).
 * Please do not file cases in the Splunk support portal related to this project, as they will not be able to help you.
+ 
+ 
+## Idempotent Playbooks
+When a playbook is executed to configure a system, the system should always have the same, well defined state. If a playbook consists of 10 steps, and the system deviates in step 4 from the desired state, then only this particular step should be applied.
 
 ## License
 Copyright 2018-2021 Splunk.

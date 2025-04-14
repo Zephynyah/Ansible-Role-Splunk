@@ -1,0 +1,18 @@
+---
+# tasks file for roles/splunk/tasks/configure_forwarders.yml
+- name: Configure Forwarders to Point to New Deployment Server
+  block:
+    - name: Deploy deploymentclient.conf template
+      ansible.builtin.template:
+        src: "uf/deploymentclient.conf.j2"
+        dest: "{{ splunk_home }}/etc/system/local/deploymentclient.conf"
+        owner: "{{ splunk_nix_user }}"
+        group: "{{ splunk_nix_group }}"
+        mode: "0644"
+      become: true
+      register: deploymentclient_conf
+      notify: restart splunk
+  when:
+    - splunk_uri_ds is defined
+    - splunk_nix_user is defined
+    - splunk_nix_group is defined

@@ -1,0 +1,15 @@
+---
+# Example playbook to properly configure SSL for Splunk
+# https://docs.splunk.com/Documentation/Splunk/9.4.0/DistSearch/Configuredistributedsearch
+
+- name: Generate Splunk CA Server Certificates
+  hosts:
+    - full
+  roles:
+    - splunkca
+  become: true
+  serial: 50
+  any_errors_fatal: true
+  max_fail_percentage: 0
+  vars:
+    - splunkca_task: generate_server_certificates.yml

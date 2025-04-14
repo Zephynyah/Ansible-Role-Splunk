@@ -1,12 +1,14 @@
 ---
-# Example playbook to properly upgrade a single-site indexer and search head using the splunk role from ansible-role-splunk
-- hosts: uf
+# Example playbook to upgrade forwarders to point to a new deployment server
+
+- name: Point Forwarders to New Deployment Server
+  hosts:
+    - uf
+  roles:
+    - splunk
   become: true
+  serial: 50
   any_errors_fatal: true
   max_fail_percentage: 0
-  tasks:
-    - name: Include Splunk role for deployment server
-      ansible.builtin.include_role:
-        name: splunk
-      vars:
-        deployment_task: none.yml
+  vars:
+    - deployment_task: configure_forwarders.yml
