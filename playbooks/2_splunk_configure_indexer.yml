@@ -10,7 +10,6 @@
   roles:
     - splunk
   become: true
-  serial: 50
   any_errors_fatal: true
   max_fail_percentage: 0
   vars:

@@ -61,30 +61,30 @@ splunk_disable_mgmt_port: false  # If set to true, will disable splunkd manageme
 splunk_mgmt_uri: "{{ ansible_fqdn }}"  # If the `ansible_fqdn` is not resolvable by other hosts, you can set it to something like `ansible_facts.default_ipv4.address` in `host_vars` or `group_vars` to use the IP address instead.
 splunkd_port: 8089  # If changed, will overwrite the default port number used by splunkd
 
-# Indexer clustering (IDXC)
-splunk_idxc_enable: false
-splunk_idxc_key: mypass4symmkey
-splunk_idxc_rf: 2  # Replication factor
-splunk_idxc_sf: 2  # Search factor
-splunk_idxc_rep_port: 9887
-splunk_idxc_label: myidxc
-splunk_apply_cluster_bundle_retries: 3  # Retry attempts for cluster bundle apply
-splunk_apply_cluster_bundle_delay: 60  # Delay (in seconds) between retries
+# # Indexer clustering (IDXC)
+# splunk_idxc_enable: false
+# splunk_idxc_key: mypass4symmkey
+# splunk_idxc_rf: 2  # Replication factor
+# splunk_idxc_sf: 2  # Search factor
+# splunk_idxc_rep_port: 9887
+# splunk_idxc_label: myidxc
+# splunk_apply_cluster_bundle_retries: 3  # Retry attempts for cluster bundle apply
+# splunk_apply_cluster_bundle_delay: 60  # Delay (in seconds) between retries
 
-# Search head clustering (SHC)
-splunk_shc_key: mypass4symmkey
-splunk_shc_label: myshc
-splunk_shc_rf: 3  # Replication factor
-splunk_shc_rep_port: 8100
-splunk_shc_target_group: shc
-splunk_shc_deployer: "{{ groups['shdeployer'] | first }}"  # Deployer for SHC
-splunk_shc_uri_list: >-
-  {% for h in groups[splunk_shc_target_group] %}
-  https://{{ hostvars[h].splunk_mgmt_uri }}:{{ splunkd_port }}
-  {% if not loop.last %},{% endif %}
-  {% endfor %}
-splunk_apply_shcluster_bundle_retries: 3  # Retry attempts for SHC bundle apply
-splunk_apply_shcluster_bundle_delay: 60  # Delay (in seconds) between retries
+# # Search head clustering (SHC)
+# splunk_shc_key: mypass4symmkey
+# splunk_shc_label: myshc
+# splunk_shc_rf: 3  # Replication factor
+# splunk_shc_rep_port: 8100
+# splunk_shc_target_group: shc
+# splunk_shc_deployer: "{{ groups['shdeployer'] | first }}"  # Deployer for SHC
+# splunk_shc_uri_list: >-
+#   {% for h in groups[splunk_shc_target_group] %}
+#   https://{{ hostvars[h].splunk_mgmt_uri }}:{{ splunkd_port }}
+#   {% if not loop.last %},{% endif %}
+#   {% endfor %}
+# splunk_apply_shcluster_bundle_retries: 3  # Retry attempts for SHC bundle apply
+# splunk_apply_shcluster_bundle_delay: 60  # Delay (in seconds) between retries
 
 # Firewall configuration
 configure_firewall: false  # Whether to configure the firewall

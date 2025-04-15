@@ -1,4 +1,9 @@
+## Learn
 
+<!--
+https://github.com/PacktPublishing/Splunk-9.x-Enterprise-Certified-Admin-Guide/tree/main 
+https://www.splunk.com/en_us/pdfs/training/splunk-enterprise-certified-admin-track.pdf
+-->
 
 
 ## Init Playbook
