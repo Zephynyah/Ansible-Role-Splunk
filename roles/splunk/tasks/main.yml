@@ -1,15 +1,9 @@
 ---
 # tasks file for splunk
-# - name: include distribution vars
-#   ansible.builtin.include_vars: "{{ item }}"
-#   with_first_found:
-#     - "{{ ansible_distribution }}{{ ansible_distribution_version }}.yml"
-#     - "{{ ansible_distribution }}.yml"
-#     - "{{ ansible_os_family }}{{ ansible_distribution_major_version }}.yml"
-#     - "{{ ansible_os_family }}.yml"
-
-- name: Include prerequisites
-  ansible.builtin.include_tasks: prereqs.yml
+- name: Ensure required packages are installed
+  ansible.builtin.include_tasks: fastpackages.yml
+  vars:
+    packages_list: ['acl']
 
 - name: Reset value of start_splunk_handler_fired and configure_boot_start
   tags: always

@@ -1,0 +1,102 @@
+---
+### This playbook is designed to:
+# 1. Fix the invalid key in the assist.conf file.
+# 2. Comment out the invalid key in the assist.conf file on all servers.
+# 3. Reload the deployment apps on the deployment server.
+# 4. Fix all permissions in Splunk.
+
+# Example:
+# ansible-playbook -i inventory.yml splunk_deployment_oneshots.yml --tags "comment_conf"
+
+- name: Splunk Deployment One-Shots
+  hosts: all
+  become: true
+  vars:
+    splunk_home: "/opt/splunk"
+    splunk_nix_user: "splunk"
+    splunk_nix_group: "splunk"
+    splunk_auth: "admin:{{ splunk_admin_password }}"
+    assist_conf_path: "/opt/splunk/etc/apps/splunk_assist/default/assist.conf"
+    invalid_key: "http_client_timout_seconds"
+    valid_key: "heartbeat_interval_seconds"
+
+  handlers:
+    - name: Restart Splunk
+      ansible.builtin.command:
+        cmd: "{{ splunk_home }}/bin/splunk restart -auth {{ splunk_auth }}"
+      become_user: "{{ splunk_nix_user }}"
+      no_log: true
+      changed_when: false
+
+  tasks:
+    - block:
+        - name: Check if assist.conf exists
+          ansible.builtin.stat:
+            path: "{{ assist_conf_path }}"
+          register: assist_conf_stat
+
+        - name: Comment out the invalid key in assist.conf
+          ansible.builtin.lineinfile:
+            path: "{{ assist_conf_path }}"
+            regexp: "^(\\s*){{ invalid_key }}(\\s*=\\s*.*)$"
+            line: "# \\1{{ invalid_key }}\\2"
+            backrefs: true
+            backup: true
+          when: assist_conf_stat.stat.exists and assist_conf_stat.stat.isreg
+          register: comment_out_key
+
+        - name: Debug message for key commenting
+          ansible.builtin.debug:
+            msg: "Commented out '{{ invalid_key }}' in {{ assist_conf_path }}"
+          when: comment_out_key.changed
+      tags: ['never', 'comment_conf']
+
+    - block:
+        - name: Replace invalid key with valid key in assist.conf
+          ansible.builtin.replace:
+            path: "{{ assist_conf_path }}"
+            regexp: "^(\\s*){{ invalid_key }}(\\s*=\\s*.*)$"
+            replace: "\\1{{ valid_key }}\\2"
+            backup: true
+          when: assist_conf_stat.stat.exists and assist_conf_stat.stat.isreg
+          register: replace_key
+
+        - name: Debug message for key replacement
+          ansible.builtin.debug:
+            msg: "Replaced '{{ invalid_key }}' with '{{ valid_key }}' in {{ assist_conf_path }}"
+          when: replace_key.changed
+      tags: ['never', 'replace_conf']
+
+    - block:
+        - name: Reload deployment apps on deployment server
+          ansible.builtin.command:
+            cmd: "{{ splunk_home }}/bin/splunk reload deploy-server -auth {{ splunk_auth }}"
+          register: reload_deploy_server
+          become_user: "{{ splunk_nix_user }}"
+          no_log: true
+          changed_when: reload_deploy_server.rc == 0
+          failed_when: false
+
+        - name: Debug output of reload_deploy_server
+          ansible.builtin.debug:
+            var: reload_deploy_server.stdout_lines
+          when: reload_deploy_server is changed
+      tags: ['never', 'reload_deploy_server']
+      when: "'deploymentserver' in group_names"
+
+    - block:
+        - name: Fix all permissions in Splunk
+          ansible.builtin.command:
+            cmd: "{{ splunk_home }}/bin/splunk fix all-permissions -auth {{ splunk_auth }}"
+          register: fix_permissions
+          become_user: "{{ splunk_nix_user }}"
+          no_log: true
+          changed_when: fix_permissions.rc == 0
+          failed_when: false
+          notify: Restart Splunk
+
+        - name: Debug output of fix_permissions
+          ansible.builtin.debug:
+            var: fix_permissions.stdout_lines
+          when: fix_permissions is changed
+      tags: ['never', 'fix_permissions']

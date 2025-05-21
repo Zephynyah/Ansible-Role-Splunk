@@ -43,8 +43,16 @@
         - { option: "httpport", value: "{{ splunk_http_port }}" }
         - { option: "serverCert", value: "etc/auth/{{ splunk_webcerts_dir }}/{{ server_certificate }}" }
         - { option: "privKeyPath", value: "etc/auth/{{ splunk_webcerts_dir }}/{{ server_privatekey }}" }
+        # - { option: "sslRootCAPath", value: "etc/auth/{{ splunk_webcerts_dir }}/{{ splunkca_certificate }}" }
       become: true
     
+    # - name: Copy the Ownca certificates to the Splunk directory
+    #   ansible.builtin.copy:
+    #     dest: "{{ splunk_home }}/etc/auth/{{ splunk_webcerts_dir }}/{{ splunkca_certificate }}"
+    #     src: "{{ splunkca_ownca_dir }}/{{ splunkca_certificate }}"
+    #     owner: "{{ splunk_nix_user }}"
+    #     group: "{{ splunk_nix_group }}"
+
     - name: Copy the server certificates to the Splunk directory
       ansible.builtin.copy:
         dest: "{{ splunk_home }}/etc/auth/{{ splunk_webcerts_dir }}/{{ item }}"
@@ -60,4 +68,21 @@
     - server_certificate_path is defined
     - server_privatekey_path is defined
     - splunk_webcerts_dir is defined
+    - splunkca_certificate_path is defined
+  
+
+- name: Copy CA certificate to the anchors directory
+  ansible.builtin.copy:
+    src: "{{ splunkca_certificate_path }}"
+    dest: "{{ splunkca_server_anchors_dir }}/{{ splunkca_certificate }}"
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+  notify: Update CA trust
+  when:
+    - splunkca_certificate_path is defined
+    - splunkca_server_anchors_dir is defined
+    - splunkca_certificate is defined
+
   

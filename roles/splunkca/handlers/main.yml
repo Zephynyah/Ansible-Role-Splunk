@@ -7,3 +7,11 @@
     state: restarted
   become: true
   listen: Restart Splunk
+
+- name: Update the anchors trust store list
+  ansible.builtin.command:
+    cmd: "/usr/bin/update-ca-trust extract"
+  register: update_ca_trust_result
+  changed_when: update_ca_trust_result.rc == 0
+  failed_when: false
+  listen: Update CA trust

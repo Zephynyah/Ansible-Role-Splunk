@@ -9,12 +9,15 @@ ansible_ssh_private_key_file: ~/.ssh/id_ssh_ed25519 #~/.ssh/id_ed25519
 splunk_package_version: 9.3.3  # Default Splunk version to install or update to
 build_id: 75595d8f83ef #51ccf43db5bd  # Default build ID for Splunk package
 
+
+# wget -O splunk-9.4.1-e3bdab203ac8-linux-amd64.tgz "https://download.splunk.com/products/splunk/releases/9.4.1/linux/splunk-9.4.1-e3bdab203ac8-linux-amd64.tgz"
+
 #-----------------------------------
 # Github variables for all hosts
 #-----------------------------------
 git_server: ssh://git@github.com:Zephynyah/splunk-ansible-apps.git
 git_key: ~/.ssh/ansible
-git_project: SOMEPROJECT
+# git_project: SOMEPROJECT
 git_branch: main
 
 #-----------------------------------

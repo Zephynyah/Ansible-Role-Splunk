@@ -3,7 +3,16 @@
 <!--
 https://github.com/PacktPublishing/Splunk-9.x-Enterprise-Certified-Admin-Guide/tree/main 
 https://www.splunk.com/en_us/pdfs/training/splunk-enterprise-certified-admin-track.pdf
+https://thesecmaster.com/blog/all-possible-settings-to-configure-in-inputs-conf-file-in-your-splunk-instances
 -->
+
+Accessing NFS Filesystems in Cockpit
+
+In addition to mounting a remote NFS file system on a client using the command-line, it is also possible to perform mount operations from within the Cockpit web interface. Assuming that Cockpit has been installed and configured on the client system, log into the Cockpit interface from within a web browser and select the Storage option from the left-hand navigation panel. If the Storage option is not listed, the cockpit-storaged package will need to be installed and the cockpit service restarted as follows:
+
+# dnf install cockpit-storaged
+# systemctl restart cockpit.socket
+
 
 
 ## Init Playbook

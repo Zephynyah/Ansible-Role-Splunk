@@ -109,7 +109,7 @@ install_utilities: false  # Install troubleshooting utilities
 use_tuned_thp: false  # Use tuned profile for Transparent Huge Pages (THP)
 
 # Git configuration for app deployment
-git_local_clone_path: ~/  # Base directory for cloning repositories
+git_local_clone_path: ~/github  # Base directory for cloning repositories
 git_server: undefined  # Git server URI (e.g., ssh://git@mygithost:1234)
 git_key: undefined  # Path to SSH key for Git
 git_project: undefined

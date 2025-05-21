@@ -21,6 +21,7 @@
 
 - name: Generate and distribute SSH key pair
   hosts: all
+  become: true
   gather_facts: false
 
   vars:

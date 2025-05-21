@@ -4,7 +4,7 @@
 # This file is used to configure the Splunk CA and server certificates
 # This file should be used to override the default variables in the defaults/main.yml file
 
-splunk_webcerts_dir: "webcerts" # the directory where the web certs are stored
+splunk_webcerts_dir: "splunkweb" # the directory where the web certs are stored
 splunk_http_port: "8443" # the port that Splunk web is running on (HTTPS)
 
 # These should be the same as the one in the splunk role defaults/main.yml file

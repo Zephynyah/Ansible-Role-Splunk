@@ -30,6 +30,10 @@ splunkca_certificate: 'ownca.pem'
 # this is the private key that will be used to sign the server certificates
 splunkca_privatekey: 'ownca.key'
 
+# The private key for the CA certificate
+# this is the private key that will be used to sign the server certificates
+splunkca_csr: 'ownca.csr'
+
 # The certificate authority (CA) certificate path
 # this is the path of the server certificate
 splunkca_certificate_path: "{{ splunkca_ownca_dir }}/{{ splunkca_certificate }}"
@@ -38,13 +42,24 @@ splunkca_certificate_path: "{{ splunkca_ownca_dir }}/{{ splunkca_certificate }}"
 # this is the path of the server private key
 splunkca_privatekey_path: "{{ splunkca_ownca_dir }}/{{ splunkca_privatekey }}"
 
+# The private key for the CA certificate path
+# this is the path of the server private key
+splunkca_csr_path: "{{ splunkca_ownca_dir }}/{{ splunkca_csr }}"
+
+# Create certificate authority (CA) CSR certificate
+# If true, a CSR certificate will be generated for the CA
+splunkca_generate_ownca_csr: false
+
 # Anchors directory for the CA certs
 # this is where the CA certificate will be copied on the server
 # this is the directory that will be used by the OS to trust the certs
 splunkca_server_anchors_dir: /etc/pki/ca-trust/source/anchors/
 
 # The CSR certificates information
-splunkca_generate_csr: false # if true, a CSR file will be generated to be signe Certificate Authority
+# Used by higher Certificate Authority to create signed the certificate. 
+# If true, a CSR certificate will be generated. 
+splunkca_generate_server_csr: false 
+
 # this is the information that will be used to generate the CSR
 splunkca_country: US # 2 letter country code
 splunkca_state: Connecticut # state or province name

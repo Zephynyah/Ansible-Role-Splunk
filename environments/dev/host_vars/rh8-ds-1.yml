@@ -9,6 +9,7 @@ serverclasses:
       - name: my_outputs_addon
         options:
           restartSplunkd: 1
+
   # Second server class example, adding in the platform filter:
   - serverclass: ALL_NIX
     whitelist:
@@ -17,7 +18,15 @@ serverclasses:
     apps:
       - name: Splunk_TA_nix
         options:
+          restartSplunkWeb: 0
           restartSplunkd: 1
+          stateOnClient: enabled
+      - name: lab_linux_inputs
+        options:
+          restartSplunkWeb: 0
+          restartSplunkd: 1
+          stateOnClient: enabled
+
   # Third server class example, adding multiple apps and filters with additional options configured for each app:
   - serverclass: ALL_WINDOWS_x64
     whitelist:
@@ -32,7 +41,7 @@ serverclasses:
         options:
           restartSplunkd: 0
           restartIfNeeded: 1
-      - name: custom_windows_inputs
+      - name: lab_windows_inputs
         options:
           restartSplunkWeb: 0
           restartSplunkd: 1
@@ -48,3 +57,63 @@ serverclasses:
       - 'webserver*dev'
     apps:
       - name: webserver_app
+        options:
+          restartSplunkd: 1
+          restartSplunkWeb: 0
+
+# Fifth server class example, setting the restartSplunkd on the serverclass level and using a whitelist:
+  - serverclass: ALL_IDX
+    restartSplunkd: 1
+    whitelist:
+      - 'rh8-idx-*'
+    apps:
+      - name: my_idx_addon
+        options:
+          restartSplunkd: 1
+          restartSplunkWeb: 0
+
+
+# Sixth server class example, setting the restartSplunkd on the serverclass level and using a whitelist:
+  - serverclass:  ALL_INDEX_ACTIONS
+    restartSplunkd: 1
+    whitelist:
+      - 'rh8-sh-*'
+      - 'rh8-idx-*'
+    platform: linux-x86_64
+    apps:
+      - name: lab_all_volumes
+        options:
+          restartSplunkd: 1
+          restartSplunkWeb: 0
+      - name: lab_all_indexes
+        options:
+          restartSplunkd: 1
+          restartSplunkWeb: 0
+
+# Seventh server class example, setting the restartSplunkd on the serverclass level and using a whitelist:
+  - serverclass:  ALL_UF
+    restartSplunkd: 1
+    whitelist:
+      - '*'
+    blacklist:
+      - 'rh8-ds-1'
+      - 'rh8-sh-1'
+      - 'rh8-idx-1'
+      - 'rh8-idx-2'
+    apps:
+      - name: my_fwd_addon
+        options:
+          restartSplunkd: 1
+          restartSplunkWeb: 0
+
+
+# Eighth server class example, setting the restartSplunkd on the serverclass level and using a whitelist:
+  - serverclass:  ALL_SH
+    restartSplunkd: 1
+    whitelist:
+      - 'rh8-sh-*'
+    apps:
+      - name: my_sh_addon
+        options:
+          restartSplunkd: 1
+          restartSplunkWeb: 0

@@ -28,7 +28,7 @@
       - "DNS:{{ server_domain }}"
       - "IP:{{ server_ip }}"
   register: csr
-  when: not splunkca_generate_csr | default(false)
+  when: not splunkca_generate_server_csr | default(false)
 
 - name: 'File | Create certificate signing request (CSR) for new certificate'
   delegate_to: localhost
@@ -47,8 +47,7 @@
       - "DNS:{{ server_fqdn }}"
       - "DNS:{{ server_domain }}"
       - "IP:{{ server_ip }}"
-  
-  when: splunkca_generate_csr == true
+  when: splunkca_generate_server_csr == true
 
 - name: Check whether certificate exists
   stat:
@@ -66,8 +65,8 @@
 - name: Sign certificate with our CA
   community.crypto.x509_certificate_pipe:
     content: "{{ (certificate.content | b64decode) if certificate_exists.stat.exists else omit }}"
-    csr_content: "{{ csr.csr if not splunkca_generate_csr else omit  }}"
-    csr_path: "{{ server_csr_path if splunkca_generate_csr else omit  }}"
+    csr_content: "{{ csr.csr if not splunkca_generate_server_csr else omit  }}"
+    csr_path: "{{ server_csr_path if splunkca_generate_server_csr else omit  }}"
     provider: ownca
     ownca_path: "{{ splunkca_certificate_path }}"
     ownca_privatekey_path: "{{ splunkca_privatekey_path }}"
@@ -90,6 +89,6 @@
     path: "{{ server_csr_path }}"
     state: absent
   delegate_to: localhost
-  when: not splunkca_generate_csr | default(false)
+  when: not splunkca_generate_server_csr | default(false)
   failed_when: false
   changed_when: false
